@@ -86,10 +86,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-17T08:48:30.198Z">
+<meta property="og:image" content="http://ffpeng90.github.io/2018/10/16/The-world-beyond-batch-Streaming-101/The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg">
+<meta property="og:updated_time" content="2018-10-17T14:17:16.522Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The world beyond batch:Streaming 101">
 <meta name="twitter:description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
+<meta name="twitter:image" content="http://ffpeng90.github.io/2018/10/16/The-world-beyond-batch-Streaming-101/The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg">
 
 
 
@@ -322,7 +324,7 @@
 </ol>
 <p>所以，长篇大论的介绍，让我们开始。</p>
 <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>首先，我将介绍一些重要的背景信息，这些信息将有助于构建我想要讨论的其他主题。我们将分为以下三个特定部分：<br><strong>术语</strong>：要准确地谈论复杂的主题，需要精确定义术语。对于某些在当前使用中有过多解释的术语，我会试着确切地指出我说的时候的意思。<br><strong>能力</strong>：我将点评流式系统经常出现的缺点。我还提出了我认为数据处理系统构建者需要采用的思维方式，以满足现代数据消费者未来的需求。<br><strong>时域</strong>：我将介绍与数据处理相关的两个主要时间域，显示它们之间的关系，并指出这两个域所带来的一些困难。</p>
-<p><strong>术语</strong>：<em>什么是Streaming</em><br>在继续之前，我想先解决一件事：什么是Streaming？今天使用术语“Streaming”来表示各种不同的东西（为简单起见，我到目前为止一直使用它有点松散），这可能导致对Streaming实际上是什么或者Streaming System的实际能力的误解。因此，我更愿意在某种程度上精确地定义这个术语</p>
+<h2 id="术语：什么是Streaming"><a href="#术语：什么是Streaming" class="headerlink" title="术语：什么是Streaming"></a>术语：什么是Streaming</h2><p>在继续之前，我想先解决一件事：什么是Streaming？今天使用术语“Streaming”来表示各种不同的东西（为简单起见，我到目前为止一直使用它有点松散），这可能导致对Streaming实际上是什么或者Streaming System的实际能力的误解。因此，我更愿意在某种程度上精确地定义这个术语</p>
 <p>问题的关键在于许多应该由它们所描述的东西（例如，无界数据处理，近似结果等），变成了它们在之前是如何完成来描述（即通过流式执行引擎）。这种缺乏精确性的术语会影响Streaming的实际意义，并且在某些情况下，会给StreamingSystem本身带来负担，暗示其功能仅限于经常被描述为Streaming的特征，例如近似或推测结果。鉴于精心设计的StreamingSystem与任何现有的批量引擎一样能够（技术上更加如此）产生正确，一致，可重复的结果，我更倾向于将术语Streaming分离为一个非常具体的含义：一种考虑了无限的数据集的数据处理引擎。仅此而已。（为了完整起见，或许值得一提的是，这个定义包括真正的流式和微批量实现。）</p>
 <p>至于Streaming的其他常见用法，这里有一些我经常听到的，每一个都有更精确的描述性术语，我建议我们作为一个社区应该尝试采用：</p>
 <ol>
@@ -330,6 +332,28 @@
 <li>无界数据处理：一种持续的数据处理模式，应用于上述类型的无界数据。尽管我个人喜欢使用术语Streaming来描述这种类型的数据处理，但在这种情况下它的使用再次意味着使用流执行引擎，这是具有误导性的;自批处理系统首次构思以来，已经使用批量引擎的重复运行来处理无界数据（相反，精心设计的流式传输系统能够处理超过有界数据的“批量”工作负载）。因此，为了清楚起见，我将简称为无界数据处理。</li>
 <li>低延迟，近似和/或推测结果：这些类型的结果通常与流引擎相关联。批处理系统传统上没有考虑低延迟或推测结果的设计这一事实是一个历史人工制品，仅此而已。当然，如果指示，批量引擎完全能够产生近似结果。因此，与上述术语一样，将这些结果描述为它们（低延迟，近似和/或推测）比通过它们历史上如何表现（通过流引擎）更好。</li>
 </ol>
+<p>从现在开始，每当我使用术语“Streaming”时，你可以放心地认为我的意思是为无界数据集设计的执行引擎，仅此而已。当我说上述任何其他术语时，就仅仅代表无界数据，无界数据处理或低延迟/近似/推测结果。这些是我们在Cloud Dataflow中采用的术语，我鼓励其他人采取类似的立场。</p>
+<h2 id="关于Streaming的被极度夸大的局限性"><a href="#关于Streaming的被极度夸大的局限性" class="headerlink" title="关于Streaming的被极度夸大的局限性"></a>关于Streaming的被极度夸大的局限性</h2><p>接下来，我们来谈谈Streaming Systems可以做什么和不能做什么，重点是可以做的事;在这些文章中，我想要介绍的最重要的事情之一就是精心设计的Streaming System的功能。Streaming Systems长期以来一直被用在提供低延迟，不准确/推测的结果的数据领域，通常与更强大的批处理系统相结合，以提供最终正确的结果，即Lambda架构。</p>
+<p>对于那些尚未熟悉Lambda架构的人来说，基本的想法是在Batch System旁边运行Streaming System，两者都执行基本相同的计算。Streaming System提供低延迟，不准确的结果（或者由于使用近似算法，或者因为Streaming System本身不提供正确性），并且一段时间之后Batch System启动来为您提供正确的输出。最初由Twitter的Nathan Marz（Storm的创造者）提出，它最终取得了相当大的成功，因为事实上，它当时是一个很棒的主意;Streaming Engine在正确性上有点失望，Batch Engine本身就像你想的那样笨拙，所以Lambda给你一个方法来保证鱼和熊掌兼得。遗憾的是，维护Lambda系统很麻烦：您需要构建，提供和维护两个独立版本的数据管道，然后在某个时刻合并两个数据管道的结果。</p>
+<p>作为一个多年来致力于强大的Streaming Engine的人，我也发现Lambda架构的整个原理有点令人讨厌。不出所料，我是Jay Kreps的文章Questioning the Lambda Architecture的忠实粉丝。这篇文章是曝光度比较高的反对双模执行必要性的文章之一;漂亮。 Kreps用像Kafka这样的可重放系统，在流互连的背景下解决了可重复性的问题，并且深入提出了Kappa架构，这基本上意味着使用一个精心设计的系统来运行一个数据管道，该系统适合于手头的工作。我不相信概念本身需要一个名字，但我原则上完全支持这个想法。</p>
+<p>老实说，我会更进一步。我认为精心设计的Streaming System实际上提供了包含批处理功能的超集。Modulo perhaps an efficiency delta，看来应该不需要这些的Batch System。我要感谢Flink开发将这个想法铭记于心并构建了一个all-streaming-all-the-time的系统，即使在“Batch”模式下也是如此;我喜欢它。</p>
+<p>所有这一切的必然结果是Streaming System的广泛成熟与无限数据处理的强大框架相结合，将Lambda架构比下去，将其变成大数据时代的历史。我相信现在是实现这一目标的时候了。为了在Batch擅长的领域打败Batch System，你仅仅只需要两件事：</p>
+<ol>
+<li><strong>Correctness</strong> — 这次可以和Batch打成平手<br>正确性最核心的事可以归结为一致性存储。Streaming System需要一种方法来检查持久状态随着时间的推移（Kreps在他的“为什么本地状态是流处理后的基本原语”中已经讨论过了），并且它必须经过精心设计，足以在机器故障的情况下保持一致。几年前，当Spark Streaming首次出现在公共大数据场景中时，它是一个在其他黑暗流媒体世界中一致的灯塔。值得庆幸的是，从那时起情况有所改善，但是有多少Streaming System仍然试图在没有强大一致性的情;我真的不敢相信，最多一次处理仍然是一件事，但确实如此。(Thankfully, things have improved somewhat since then, but it is remarkable how many streaming systems still try to get by without strong consistency; I seriously cannot believe that at-most-once processing is still a thing, but it is.)<br>重申一下，因为这一点非常重要：一次性处理需要强一致性，这是正确性所必需的，这是任何系统想要达到或超过Batch Systems的必要条件。除非你真的不关心你的结果，否则我恳请你避开任何不提供强烈一致状态的Streaming System。Batch systems不要求您提前验证它们是否能够产生正确的答案;不要浪费你的时间在不能满足相同标准的Streaming System上。</li>
+</ol>
+<p>如果您想了解更多关于在Streaming System中怎么获得强一致性所需的内容，我建议您查看MillWheel和Spark Streaming论文。两篇论文都花了大量时间讨论一致性。鉴于文献和其他地方有关该主题的高质量信息，我不会在这些帖子中进一步介绍。</p>
+<ol start="2">
+<li><strong>Tools for reasoning about time</strong> — 这次将完胜Batch<br>优秀的时间推理工具对于处理有事件时间偏差的无界、无序数据至关重要。越来越多的现代数据集具有这些特征，现有的batch systems（以及大多数streaming systems）缺乏必要的工具来应对它们所带来的困难。我将花费这篇文章的剩余部分，以及下一篇文章的大部分内容，解释并关注这一点。<br>首先，我们要对时域的重要概念有一个基本的了解，之后我们将深入研究不同事件时间偏差的无界无序数据的含义。然后，本文的其余部分将来探讨Batch&amp;Streaming System的有界和无界数据处理的常用方法。</li>
+</ol>
+<p><strong>Event time vs. processing time</strong><br>要谈论无限数据的处理，需要清楚地了解所涉及的时间领域。在任何数据处理系统中，通常有两个我们关心的时间域：</p>
+<ul>
+<li><strong>Event time</strong>, 事件实际发生的时间。</li>
+<li><strong>Processing time</strong>,这是在Streaming System中观察事件的时间<br>并非所有的Case都关心事件时间（如果你的事情没有，那么万岁！ - 你的生活更容易），但很多人都关心这个。比如说包括表征用户随时间的行为，大多数计费应用程序以及许多类型的异常检测，不一而足。<br>在理想的世界中，事件时间和处理时间总是相等的，事件在发生时立即处理。然而，现实并非如此，事件时间和处理时间之间的偏差不仅非零，而且通常是底层输入源，执行引擎和硬件特性的高度可变函数。可能影响偏差程度的事情包括：</li>
+<li>共享资源限制，例如网络拥塞，网络分区或非专用环境中的共享CPU。</li>
+<li>软件原因，例如分布式系统逻辑，临界区等。</li>
+<li>数据本身的特征，包括密钥分布，吞吐量的变化或无序的变化（例如，在离线使用整个航班之后，人们将他们的电话带出飞机模式的飞机）。</li>
+</ul>
+<p>因此，如果您在任何实际系统中绘制事件时间和处理时间的进度，通常会得到一些看起来有点像图1中的红线的东西。<br><img src="The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg" alt=""></p>
 
       
     </div>
@@ -520,7 +544,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#术语：什么是Streaming"><span class="nav-number">2.1.</span> <span class="nav-text">术语：什么是Streaming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Streaming的被极度夸大的局限性"><span class="nav-number">2.2.</span> <span class="nav-text">关于Streaming的被极度夸大的局限性</span></a></li></ol></li></ol></div>
             
 
           </div>
