@@ -87,7 +87,7 @@
 <meta property="og:description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ffpeng90.github.io/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg">
-<meta property="og:updated_time" content="2018-10-17T14:17:16.522Z">
+<meta property="og:updated_time" content="2018-10-17T14:26:47.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The world beyond batch:Streaming 101">
 <meta name="twitter:description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
@@ -345,7 +345,7 @@
 <ol start="2">
 <li><strong>Tools for reasoning about time</strong> — 这次将完胜Batch<br>优秀的时间推理工具对于处理有事件时间偏差的无界、无序数据至关重要。越来越多的现代数据集具有这些特征，现有的batch systems（以及大多数streaming systems）缺乏必要的工具来应对它们所带来的困难。我将花费这篇文章的剩余部分，以及下一篇文章的大部分内容，解释并关注这一点。<br>首先，我们要对时域的重要概念有一个基本的了解，之后我们将深入研究不同事件时间偏差的无界无序数据的含义。然后，本文的其余部分将来探讨Batch&amp;Streaming System的有界和无界数据处理的常用方法。</li>
 </ol>
-<p><strong>Event time vs. processing time</strong><br>要谈论无限数据的处理，需要清楚地了解所涉及的时间领域。在任何数据处理系统中，通常有两个我们关心的时间域：</p>
+<h2 id="Event-time-vs-processing-time"><a href="#Event-time-vs-processing-time" class="headerlink" title="Event time vs. processing time"></a>Event time vs. processing time</h2><p>要谈论无限数据的处理，需要清楚地了解所涉及的时间领域。在任何数据处理系统中，通常有两个我们关心的时间域：</p>
 <ul>
 <li><strong>Event time</strong>, 事件实际发生的时间。</li>
 <li><strong>Processing time</strong>,这是在Streaming System中观察事件的时间<br>并非所有的Case都关心事件时间（如果你的事情没有，那么万岁！ - 你的生活更容易），但很多人都关心这个。比如说包括表征用户随时间的行为，大多数计费应用程序以及许多类型的异常检测，不一而足。<br>在理想的世界中，事件时间和处理时间总是相等的，事件在发生时立即处理。然而，现实并非如此，事件时间和处理时间之间的偏差不仅非零，而且通常是底层输入源，执行引擎和硬件特性的高度可变函数。可能影响偏差程度的事情包括：</li>
@@ -353,8 +353,14 @@
 <li>软件原因，例如分布式系统逻辑，临界区等。</li>
 <li>数据本身的特征，包括密钥分布，吞吐量的变化或无序的变化（例如，在离线使用整个航班之后，人们将他们的电话带出飞机模式的飞机）。</li>
 </ul>
-<p>因此，如果您在任何实际系统中绘制事件时间和处理时间的进度，通常会得到一些看起来有点像图1中的红线的东西。<br><img src="/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg" alt=""></p>
-
+<p>因此，如果您在任何实际系统中绘制事件时间和处理时间的进度，通常会得到一些看起来有点像图1中的红线的东西。<br><img src="/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg" alt="Figure 1: Example time domain mapping. The X-axis represents event time completeness in the system, i.e. the time X in event time up to which all data with event times less than X have been observed. The Y-axis represents the progress of processing time, i.e. normal clock time as observed by the data processing system as it executes. Image: Tyler Akidau."></p>
+<p>斜率为1的黑色虚线表示理想值，其中处理时间和事件时间完全相等;红线代表现实。在这个例子中，系统在处理时间开始时滞后一点，在中间偏向理想状态，然后在结束时稍微滞后一点。理想线和红线之间的水平距离是处理时间和事件时间之间的偏差。这种偏差本质上是处理流水线引入的延迟。</p>
+<p>由于事件时间和处理时间之间的映射不是静态的，这意味着如果您关心事件时间（即事件实际发生的时间），则无法仅在管道中观察数据的上下文中分析数据。不幸的是，这是大多数现有系统为无界数据设计的方式。为了应对无界数据集的无限性，这些系统通常提供一些窗口化输入数据的概念。我们将在下面深入讨论窗口，但它实质上意味着将数据集沿时间边界切割成有限的片段。</p>
+<p>如果您关心正确性并且有兴趣在事件时间的上下文中分析您的数据，则无法像大多数现有系统那样使用处理时间（即处理时间窗口）来定义这些时间边界;在处理时间和事件时间之间没有一致的相关性，你的一些事件时间数据将在错误的处理时间窗口中结束（由于分布式系统的固有滞后，许多类型的输入源的在线/离线性质，等等，把正确性扔出窗外。我们将在下面的一些示例以及下一篇文章中更详细地研究这个问题。</p>
+<p>不幸的是，当按事件时间窗口化时，图片并不完全乐观。在无界数据的情况下，无序和变量偏斜会导致事件时间窗口的完整性问题：缺少处理时间和事件时间之间的可预测映射，如何确定何时观察到给定事件时间X的所有数据？对于许多真实世界的数据源，你根本做不到。当今使用的绝大多数数据处理系统都依赖于某些完整性概念，这使得它们在应用于无界数据集时处于严重劣势。</p>
+<p>我建议不要试图将无限数据整理成最终变得完整的有限批次信息，而应该设计工具，让我们生活在这些复杂数据集所带来的不确定性的世界中。新数据将到来，旧数据可能会被撤回或更新，我们构建的任何系统都应该能够自己处理这些事实，完整性概念是一种方便的优化而不是语义必需。</p>
+<p>在深入探讨如何使用Cloud Dataflow中使用的数据流模型构建此类系统之前，让我们完成一个更有用的背景：常见的数据处理模式。</p>
+<h2 id="Data-processing-patterns"><a href="#Data-processing-patterns" class="headerlink" title="Data processing patterns"></a>Data processing patterns</h2>
       
     </div>
     
@@ -544,7 +550,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#术语：什么是Streaming"><span class="nav-number">2.1.</span> <span class="nav-text">术语：什么是Streaming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Streaming的被极度夸大的局限性"><span class="nav-number">2.2.</span> <span class="nav-text">关于Streaming的被极度夸大的局限性</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#术语：什么是Streaming"><span class="nav-number">2.1.</span> <span class="nav-text">术语：什么是Streaming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Streaming的被极度夸大的局限性"><span class="nav-number">2.2.</span> <span class="nav-text">关于Streaming的被极度夸大的局限性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-time-vs-processing-time"><span class="nav-number">2.3.</span> <span class="nav-text">Event time vs. processing time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-processing-patterns"><span class="nav-number">2.4.</span> <span class="nav-text">Data processing patterns</span></a></li></ol></li></ol></div>
             
 
           </div>
