@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="问题背景工作项目使用了hbase的jar包，其中内置了protobuf-java 2.6.0版本。1234[INFO] +- org.apache.hbase:hbase-client:jar:1.2.0-cdh5.11.0-qiyi-1:compile[INFO] |  +- org.apache.hbase:hbase-annotations:jar:1.2.0-cdh5.11.0-qiyi-">
+<meta name="description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
 <meta name="keywords" content="Maven">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Maven-Shade-Plugin必知必会">
 <meta property="og:url" content="http://ffpeng90.github.io/2018/10/18/Maven-Shade-Plugin必知必会/index.html">
 <meta property="og:site_name" content="ffpeng&#39;s Essay">
-<meta property="og:description" content="问题背景工作项目使用了hbase的jar包，其中内置了protobuf-java 2.6.0版本。1234[INFO] +- org.apache.hbase:hbase-client:jar:1.2.0-cdh5.11.0-qiyi-1:compile[INFO] |  +- org.apache.hbase:hbase-annotations:jar:1.2.0-cdh5.11.0-qiyi-">
+<meta property="og:description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-18T07:20:35.937Z">
+<meta property="og:updated_time" content="2018-10-18T07:31:01.449Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven-Shade-Plugin必知必会">
-<meta name="twitter:description" content="问题背景工作项目使用了hbase的jar包，其中内置了protobuf-java 2.6.0版本。1234[INFO] +- org.apache.hbase:hbase-client:jar:1.2.0-cdh5.11.0-qiyi-1:compile[INFO] |  +- org.apache.hbase:hbase-annotations:jar:1.2.0-cdh5.11.0-qiyi-">
+<meta name="twitter:description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
 
 
 
@@ -361,7 +361,7 @@
       
 
       
-        <h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>工作项目使用了hbase的jar包，其中内置了protobuf-java 2.6.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.hbase:hbase-client:jar:1.2.0-cdh5.11.0-qiyi-1:compile</span><br><span class="line">[INFO] |  +- org.apache.hbase:hbase-annotations:jar:1.2.0-cdh5.11.0-qiyi-1:compile</span><br><span class="line">[INFO] |  +- org.apache.hbase:hbase-protocol:jar:1.2.0-cdh5.11.0-qiyi-1:compile</span><br><span class="line">[INFO] |  +- org.apache.htrace:htrace-core:jar:3.2.0-incubating:compile</span><br></pre></td></tr></table></figure></p>
+        <h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile</span><br><span class="line">[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:compile</span><br><span class="line">[INFO] |  +- com.google.protobuf:protobuf-java:jar:2.5.0:compile</span><br></pre></td></tr></table></figure></p>
 <p>而新加入的Calcite-core的jar包中内置了protobuf-java 3.1.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.calcite:calcite-core:jar:1.13.0:compile</span><br><span class="line">[INFO] |  +- org.apache.calcite.avatica:avatica-core:jar:1.10.0:compile</span><br><span class="line">[INFO] |  |  +- org.apache.calcite.avatica:avatica-metrics:jar:1.10.0:compile</span><br><span class="line">[INFO] |  |  +- com.google.protobuf:protobuf-java:jar:3.1.0:compile</span><br></pre></td></tr></table></figure></p>
 <p>如果这两个版本的jar包能够向下兼容的话，我只需要exclude掉2.6.0的jar包就可以手工了。<br>然而作者实践了一把，发现exclude 2.6.0的protobuf会导致hbase初始化异常，而exclude3.1.0的jar包会导致Calcite-core <code>could not found function **</code>这种低版本报错。</p>
 <p>这种情况下就需要两个版本的jar包并存，那怎么解决这个冲突问题呢？</p>
@@ -543,7 +543,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
