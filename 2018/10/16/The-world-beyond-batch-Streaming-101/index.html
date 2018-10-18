@@ -88,7 +88,8 @@
 <meta property="og:description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ffpeng90.github.io/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg">
-<meta property="og:updated_time" content="2018-10-18T02:25:20.661Z">
+<meta property="og:image" content="http://ffpeng90.github.io/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig02_classicbatch-65147a08a7902873d46be1e5805c4bd4.jpg">
+<meta property="og:updated_time" content="2018-10-18T08:08:11.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The world beyond batch:Streaming 101">
 <meta name="twitter:description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
@@ -413,7 +414,60 @@
 <p>不幸的是，当按事件时间窗口化时，图片并不完全乐观。在无界数据的情况下，无序和变量偏斜会导致事件时间窗口的完整性问题：缺少处理时间和事件时间之间的可预测映射，如何确定何时观察到给定事件时间X的所有数据？对于许多真实世界的数据源，你根本做不到。当今使用的绝大多数数据处理系统都依赖于某些完整性概念，这使得它们在应用于无界数据集时处于严重劣势。</p>
 <p>我建议不要试图将无限数据整理成最终变得完整的有限批次信息，而应该设计工具，让我们生活在这些复杂数据集所带来的不确定性的世界中。新数据将到来，旧数据可能会被撤回或更新，我们构建的任何系统都应该能够自己处理这些事实，完整性概念是一种方便的优化而不是语义必需。</p>
 <p>在深入探讨如何使用Cloud Dataflow中使用的数据流模型构建此类系统之前，让我们完成一个更有用的背景：常见的数据处理模式。</p>
-<h2 id="Data-processing-patterns"><a href="#Data-processing-patterns" class="headerlink" title="Data processing patterns"></a>Data processing patterns</h2>
+<h2 id="Data-processing-patterns"><a href="#Data-processing-patterns" class="headerlink" title="Data processing patterns"></a>Data processing patterns</h2><p>目前为止，我们已经建立了足够的背景，我们可以开始研究当今有界和无界数据处理中常见的核心类型的使用模式。我们将在我们关注的两种主要类型的引擎的上下文中查看这两种类型的处理（相关的）（批处理和流式传输，在这种情况下，我基本上将微批处理与流式传输混合起来，因为两者之间的差异在这个层面上并不十分重要）。</p>
+<h3 id="Bounded-data"><a href="#Bounded-data" class="headerlink" title="Bounded data"></a>Bounded data</h3><p>处理有界数据非常简单，并且可能对每个人都很熟悉。在下图中，我们从左侧开始，数据集充满了熵。我们通过一些数据处理引擎（通常是批处理，虽然设计良好的流引擎也能正常工作）运行它，例如MapReduce，并在右端使用具有更大内在价值的新结构化数据集：<br><img src="/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig02_classicbatch-65147a08a7902873d46be1e5805c4bd4.jpg" alt="Figure 2: Bounded data processing with a classic batch engine. A finite pool of unstructured data on the left is run through a data processing engine, resulting in corresponding structured data on the right. Image: Tyler Akidau."></p>
+<p>当然，作为该方案的一部分，您可以实际计算的内容存在无限变化，但整体模型非常简单。更有趣的是处理无界数据集的任务。现在让我们看看通常处理无限数据的各种方式，从传统批处理引擎使用的方法开始，然后结束可以采用专为无界数据设计的系统的方法，例如大多数流媒体或微批处理引擎。</p>
+<h3 id="Unbounded-data-—-batch"><a href="#Unbounded-data-—-batch" class="headerlink" title="Unbounded data — batch"></a>Unbounded data — batch</h3><p>批量引擎虽然没有明确地设计为无限数据，但已被用于处理无界数据集，因为批量系统最初是在构思之前。正如人们所预料的那样，这种方法围绕着将无界数据切割成适合批处理的有界数据集的集合。</p>
+<h4 id="Fixed-windows"><a href="#Fixed-windows" class="headerlink" title="Fixed windows"></a>Fixed windows</h4><p>使用批处理引擎的重复运行来处理无界数据集的最常用方法是将输入数据窗口化为固定大小的窗口，然后将每个窗口作为单独的有界数据源处理。特别是对于像日志这样的输入源，其中事件可以写入目录和文件层次结构，其名称编码它们对应的窗口，这种事情在乍一看似乎非常简单，因为你基本上执行了基于时间的随机数来获取数据提前进入适当的事件时间窗口。</p>
+<p>但实际上，大多数系统仍然存在完整性问题需要处理：如果由于网络分区而导致某些事件延迟到达日志，该怎么办？如果您的活动是全球收集的，并且必须在处理之前转移到公共位置，该怎么办？如果您的活动来自移动设备怎么办？这意味着可能需要某种缓解（例如，在您确定已收集所有事件之前延迟处理，或者在数据迟到时重新处理给定窗口的整个批处理）。</p>
+<h4 id="Sessions"><a href="#Sessions" class="headerlink" title="Sessions"></a>Sessions</h4><p>当您尝试使用批处理引擎将无限数据处理为更复杂的窗口策略（如会话）时，此方法会更加崩溃。会话通常被定义为由不活动间隙终止的活动时段（例如，对于特定用户）。使用典型的批处理引擎计算会话时，您经常会遇到按批次分割的会话，如下图中的红色标记所示。可以通过增加批量大小来减少拆分数量，但代价是延迟增加。另一种选择是添加额外的逻辑来拼接先前运行的会话，但代价是进一步复杂化。</p>
+<p>无论哪种方式，使用经典的批处理引擎来计算会话都不太理想。一种更好的方法是以流式方式构建会话，稍后我们将对此进行介绍。</p>
+<h3 id="Unbounded-data-—-streaming"><a href="#Unbounded-data-—-streaming" class="headerlink" title="Unbounded data — streaming"></a>Unbounded data — streaming</h3><p>与大多数基于批处理的无界数据处理方法的临时性质相反，流式系统是针对无界数据构建的。正如我前面提到的，对于许多真实的分布式输入源，您不仅会发现自己处理无界数据，还会处理以下数据：</p>
+<ul>
+<li><strong>Highly unordered with respect to event times</strong>,这意味着如果要在发生它们的上下文中分析数据，则需要在管道中进行某种基于时间的混洗。</li>
+<li><strong>Of varying event time skew</strong>, 这意味着你不能只假设你总能看到给定事件时间X的大部分数据在某个恒定的时间ε之内。</li>
+</ul>
+<p>在处理具有这些特征的数据时，可以采取一些方法。我通常将这些方法分为四组：</p>
+<ul>
+<li>Time-agnostic</li>
+<li>Approximation</li>
+<li>Windowing by processing time</li>
+<li>Windowing by event time<br>我们现在花一点时间来研究这些方法。</li>
+</ul>
+<h4 id="Time-agnostic"><a href="#Time-agnostic" class="headerlink" title="Time-agnostic"></a>Time-agnostic</h4><p>在时间基本上不相关的情况下使用时间不可知处理 - 即，所有相关逻辑都是数据驱动的。由于有关此类使用案例的所有内容都是由更多数据的到来决定的，因此除了基本数据传输之外，流媒体引擎实际上没有什么特别需要支持的。因此，基本上所有流媒体系统都支持开箱即用的时间不可用的用例（一致性保证系统到系统的差异，当然，对于那些关心正确性的人来说）。批处理系统也非常适用于无界数据源的时间不可知处理，只需将无界源切割成有界数据集的任意序列并独立处理这些数据集。我们将在本节中看一些具体的例子，但考虑到处理与时间无关的处理的直接性，除此之外不会花费太多时间。</p>
+<h5 id="Filtering"><a href="#Filtering" class="headerlink" title="Filtering"></a>Filtering</h5><p>时间不可知处理的一种非常基本的形式是过滤。想象一下，您正在处理Web流量日志，并且您想要过滤掉所有不是来自特定域的流量。你会看到每个记录到达时，查看它是否属于感兴趣的域，如果没有则删除它。由于这种事情在任何时候都只依赖于单个元素，因此数据源无限制，无序且事件时间偏差变化的事实无关紧要。</p>
+<h5 id="Inner-joins"><a href="#Inner-joins" class="headerlink" title="Inner-joins"></a>Inner-joins</h5><p>另一个与时间无关的例子是内连接（或哈希连接）。当连接两个无界数据源时，如果您只关心来自两个源的元素到达时的连接结果，则逻辑上没有时间元素。在看到来自一个源的值后，您可以简单地将其缓冲为持久状态;一旦来自另一个源的第二个值到达，您只需要发出连接记录。 （事实上​​，你可能想要某种垃圾收集策略用于未经许可的部分连接，这可能是基于时间的。但是对于很少或没有未完成连接的用例，这样的事情可能不是问题。）</p>
+<p>将语义切换到某种外连接会引入我们所讨论的数据完整性问题：一旦你看到了连接的一面，你怎么知道另一面是否会到达？说实话，你没有，所以你必须引入一些超时的概念，这会引入一个时间元素。时间元素本质上是一种窗口形式，我们将在一瞬间更加密切地关注它。</p>
+<h4 id="Approximation-algorithms"><a href="#Approximation-algorithms" class="headerlink" title="Approximation algorithms"></a>Approximation algorithms</h4><p>第二个主要类别的方法是近似算法，例如近似的前N个，流式K-means等。它们采用无限的输入源并提供输出数据，如果你眯着眼睛看，它们看起来或多或少像你的那样我希望得到。近似算法的优点在于，通过设计，它们的开销很低，并且设计用于无界数据。缺点是它们存在有限的一组，算法本身往往很复杂（这使得很难想出新的算法），它们的近似性质限制了它们的效用。</p>
+<p>值得注意的是：这些算法通常在其设计中具有一些时间元素（例如，某种内置衰变）。并且由于它们在到达时处理元素，因此该时间元素通常基于处理时间。这对于在其近似上提供某种可证明的误差界限的算法尤其重要。如果这些误差范围是以按顺序到达的数据为基础的，那么当您向算法提供具有不同事件时间偏差的无序数据时，它们基本上没有任何意义。要记住的事情。</p>
+<p>近似算法本身是一个引人入胜的主题，但由于它们本质上是时间不可知处理的另一个例子（以算法本身的时间特征为模），它们使用起来非常简单，因此在我们目前的重点下不值得进一步关注。</p>
+<h4 id="Windowing"><a href="#Windowing" class="headerlink" title="Windowing"></a>Windowing</h4><p>其余两种无限制数据处理方法都是窗口的变化。在深入研究它们之间的差异之前，我应该清楚地说明窗口的确切含义，因为我只是简单地触及了它。窗口化只是获取数据源（无界或有界）的概念，并沿着时间边界将其切割成有限的块以进行处理。下图显示了三种不同的窗口模式：</p>
+<h5 id="Fixed-windows-1"><a href="#Fixed-windows-1" class="headerlink" title="Fixed windows"></a>Fixed windows</h5><p>固定窗口将时间切割成具有固定大小的时间长度的段。通常（如图8所示），固定窗口的段均匀地应用于整个数据集，这是对齐窗口的示例。在某些情况下，希望对不同数据子集（例如，每个键）的窗口进行相移以随时间更均匀地扩展窗口完成负载，而不是未对齐窗口的示例，因为它们在数据上变化。</p>
+<h5 id="Sliding-windows"><a href="#Sliding-windows" class="headerlink" title="Sliding windows"></a>Sliding windows</h5><p>固定窗口的推广，滑动窗口由固定长度和固定周期定义。如果周期小于长度，则窗口重叠。如果周期等于长度，则您有固定的窗口。如果周期大于长度，则会有一种奇怪的采样窗口，它只会随着时间的推移查看数据的子集。与固定窗口一样，滑动窗口通常是对齐的，但在某些用例中可能不对齐作为性能优化。注意，图8中的滑动窗口是按原样绘制的，以给出滑动感;实际上，所有五个窗口都将应用于整个数据集。</p>
+<h5 id="Sessions-1"><a href="#Sessions-1" class="headerlink" title="Sessions"></a>Sessions</h5><p>动态窗口的一个例子，会话由大于某个超时的不活动间隙终止的事件序列组成。会话通常用于通过将一系列与时间相关的事件（例如，在一次观看中观看的一系列视频）组合在一起来分析用户随时间的行为。会话很有意思，因为它们的长度不能先验地定义;它们取决于所涉及的实际数据。它们也是未对齐窗口的规范示例，因为会话实际上在不同的数据子集（例如，不同用户）之间从不相同。</p>
+<p>讨论的两个时间域 - 处理时间和事件时间 - 基本上是我们关心的两个[2]。窗口化在两个域中都有意义，因此我们将详细查看每个窗口并查看它们之间的区别。由于处理时间窗口在现有系统中非常普遍，我将从那里开始。</p>
+<h4 id="Windowing-by-processing-time"><a href="#Windowing-by-processing-time" class="headerlink" title="Windowing by processing time"></a>Windowing by processing time</h4><p>当按处理时间窗口化时，系统基本上将输入数据缓冲到窗口中，直到经过一定量的处理时间。例如，在五分钟固定窗口的情况下，系统会将数据缓冲五分钟的处理时间，之后它会将这五分钟内观察到的所有数据视为一个窗口并将它们发送到下游进行处理。</p>
+<p>处理时间窗口有一些很好的特性：</p>
+<ul>
+<li><strong>简单</strong>，由于您从不担心在一段时间内改变数据，因此实现非常简单。你只需在它们到达时缓冲它们并在窗口关闭时将它们发送到下游。</li>
+<li><strong>判断窗口的完整性很简单</strong>。由于系统完全了解是否已经看到窗口的所有输入，因此可以就给定窗口是否完整做出完美的决定。这意味着当按处理时间进行窗口化时，无需以任何方式处理“延迟”数据。</li>
+<li>如果您想要在观察时推断出有关源的信息，那么处理时间窗口正是您想要的。许多监测方案都属于这一类。想象一下，跟踪发送到全球规模Web服务的每秒请求数。为了检测中断而计算这些请求的速率是处理时间窗口的完美使用。</li>
+</ul>
+<p>除了优点之外，处理时间窗口有一个非常大的缺点：如果有问题的数据具有与它们相关联的事件时间，那么如果处理时间窗口要反映实际上这些事件的实际情况，那么这些数据必须按事件时间顺序到达发生了。不幸的是，在许多真实的分布式输入源中，事件时序数据并不常见。</p>
+<p>举一个简单的例子，想象一下任何收集使用统计数据以供以后处理的移动应用程序。如果给定的移动设备在任何时间内脱机（短暂的连接丢失，飞越全国时的飞行模式等），则在该设备再次上线之前不会上传在此期间记录的数据。这意味着数据可能会以分钟，小时，天，周或更长的事件时间偏差到达。当处理时间窗口化时，基本上不可能从这样的数据集中得出任何有用的推论。</p>
+<p>作为另一个例子，当整个系统健康时，许多分布式输入源似乎可以提供事件时间有序（或非常接近）的数据。不幸的是，健康时事件时间偏差对于输入源来说是低的这一事实并不意味着它总会保持这种状态。考虑一个处理在多个大洲收集的数据的全球服务。如果网络问题跨越带宽受限的跨大陆线路（遗憾的是，这种情况非常常见）会进一步降低带宽和/或增加延迟，突然一部分输入数据可能会以比以前更大的偏差开始到达。如果您通过处理时间来处理该数据，那么您的窗口不再代表其中实际发生的数据;相反，当事件到达处理管道时，它们代表时间窗口，这是旧数据和当前数据的任意混合。</p>
+<p>我们在这两种情况下真正想要的是以一种对事件到达顺序稳健的方式按事件时间窗口数据。我们真正想要的是事件时间窗口。</p>
+<h4 id="Windowing-by-event-time"><a href="#Windowing-by-event-time" class="headerlink" title="Windowing by event time"></a>Windowing by event time</h4><p>当您需要观察有限块中反映事件实际发生时间的数据源时，可以使用事件时间窗口。这是开窗的黄金标准。遗憾的是，目前使用的大多数数据处理系统都缺乏对它的原生支持（尽管任何具有良好一致性模型的系统，如Hadoop或Spark Streaming，都可以作为构建这种窗口系统的合理基础）。</p>
+<p>此图显示了将无界源窗口化为一小时固定窗口的示例：</p>
+<p>图中的实线白线表示两个特别感兴趣的数据。这两个数据都到达处理时间窗口，这些时间窗口与它们所属的事件时间窗口不匹配。因此，如果这些数据已被窗口化为处理关注事件时间的用例的处理时间窗口，则计算结果将是不正确的。正如人们所料，事件时间正确性是使用事件时间窗口的一个好处。</p>
+<p>关于无界数据源的事件时间窗口的另一个好处是，您可以创建动态大小的窗口，例如会话，而不会在通过固定窗口生成会话时观察到任意分割（正如我们之前在“无界数据”中的会话示例中看到的那样） - 批次“部分”：</p>
+<p>当然，强大的语义很少是免费的，事件时间窗也不例外。事件时间窗口有两个显着的缺点，因为窗口必须经常比窗口本身的实际长度更长（处理时间）：</p>
+<ul>
+<li>缓冲： 由于延长了窗口寿命，因此需要更多的数据缓冲。值得庆幸的是，持久存储通常是大多数数据处理系统所依赖的资源类型中最便宜的（其他类型主要是CPU，网络带宽和RAM）。因此，当使用具有强一致性持久状态和体面内存缓存层的任何精心设计的数据处理系统时，这个问题通常比人们想象的要少得多。而且，许多有用的聚合不要求整个输入集被缓冲（例如，总和或平均），而是可以递增地执行，其中存储在持久状态中的小得多的中间聚合。</li>
+<li>完整性：鉴于我们通常没有很好的方法知道我们何时看到给定窗口的所有数据，我们如何知道窗口的结果何时可以实现？事实上，我们根本就没有。对于许多类型的输入，系统可以通过类似MillWheel的水印（我将在第2部分中详细讨论）提供合理准确的窗口完成启发式估计。但是在绝对正确性至关重要的情况下（再次考虑计费），唯一真正的选择是为管道构建者提供一种方式来表达何时需要实现窗口的结果，以及如何随着时间的推移改进这些结果。处理窗口完整性（或缺少窗口完整性）是一个引人入胜的主题，但也许最好在具体示例的背景下进行探讨，我们将在下一次讨论。</li>
+</ul>
+<p>#结论<br>呼！那是很多信息。对于那些已经做到这一点的人：你将受到赞扬！在这一点上，我们大致已经完成了我想要覆盖的材料的一半，所以回过头来回顾一下我到目前为止所涵盖的内容可能是合理的，并且在进入第2部分之前让事情稍微解决。所有这些的好处是第1部分是无聊的职位;第2部分是真正开始的乐趣所在。</p>
+
       
     </div>
     
@@ -638,7 +692,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#术语：什么是Streaming"><span class="nav-number">2.1.</span> <span class="nav-text">术语：什么是Streaming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Streaming的被极度夸大的局限性"><span class="nav-number">2.2.</span> <span class="nav-text">关于Streaming的被极度夸大的局限性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-time-vs-processing-time"><span class="nav-number">2.3.</span> <span class="nav-text">Event time vs. processing time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-processing-patterns"><span class="nav-number">2.4.</span> <span class="nav-text">Data processing patterns</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#术语：什么是Streaming"><span class="nav-number">2.1.</span> <span class="nav-text">术语：什么是Streaming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Streaming的被极度夸大的局限性"><span class="nav-number">2.2.</span> <span class="nav-text">关于Streaming的被极度夸大的局限性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Event-time-vs-processing-time"><span class="nav-number">2.3.</span> <span class="nav-text">Event time vs. processing time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-processing-patterns"><span class="nav-number">2.4.</span> <span class="nav-text">Data processing patterns</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bounded-data"><span class="nav-number">2.4.1.</span> <span class="nav-text">Bounded data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unbounded-data-—-batch"><span class="nav-number">2.4.2.</span> <span class="nav-text">Unbounded data — batch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Fixed-windows"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">Fixed windows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sessions"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">Sessions</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unbounded-data-—-streaming"><span class="nav-number">2.4.3.</span> <span class="nav-text">Unbounded data — streaming</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Time-agnostic"><span class="nav-number">2.4.3.1.</span> <span class="nav-text">Time-agnostic</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Filtering"><span class="nav-number">2.4.3.1.1.</span> <span class="nav-text">Filtering</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Inner-joins"><span class="nav-number">2.4.3.1.2.</span> <span class="nav-text">Inner-joins</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Approximation-algorithms"><span class="nav-number">2.4.3.2.</span> <span class="nav-text">Approximation algorithms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windowing"><span class="nav-number">2.4.3.3.</span> <span class="nav-text">Windowing</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Fixed-windows-1"><span class="nav-number">2.4.3.3.1.</span> <span class="nav-text">Fixed windows</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sliding-windows"><span class="nav-number">2.4.3.3.2.</span> <span class="nav-text">Sliding windows</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sessions-1"><span class="nav-number">2.4.3.3.3.</span> <span class="nav-text">Sessions</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windowing-by-processing-time"><span class="nav-number">2.4.3.4.</span> <span class="nav-text">Windowing by processing time</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windowing-by-event-time"><span class="nav-number">2.4.3.5.</span> <span class="nav-text">Windowing by event time</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
