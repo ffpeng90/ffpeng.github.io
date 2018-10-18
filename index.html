@@ -258,6 +258,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ffpeng90.github.io/2018/10/18/Maven-Shade-Plugin必知必会/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="peng feifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ffpeng's Essay">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/18/Maven-Shade-Plugin必知必会/" itemprop="url">Maven-Shade-Plugin必知必会</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-18T14:57:08+08:00">
+                2018-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>工作项目使用了hbase的jar包，其中内置了protobuf-java 2.6.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.hbase:hbase-client:jar:1.2.0-cdh5.11.0-qiyi-1:compile</span><br><span class="line">[INFO] |  +- org.apache.hbase:hbase-annotations:jar:1.2.0-cdh5.11.0-qiyi-1:compile</span><br><span class="line">[INFO] |  +- org.apache.hbase:hbase-protocol:jar:1.2.0-cdh5.11.0-qiyi-1:compile</span><br><span class="line">[INFO] |  +- org.apache.htrace:htrace-core:jar:3.2.0-incubating:compile</span><br></pre></td></tr></table></figure></p>
+<p>而新加入的Calcite-core的jar包中内置了protobuf-java 3.1.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.calcite:calcite-core:jar:1.13.0:compile</span><br><span class="line">[INFO] |  +- org.apache.calcite.avatica:avatica-core:jar:1.10.0:compile</span><br><span class="line">[INFO] |  |  +- org.apache.calcite.avatica:avatica-metrics:jar:1.10.0:compile</span><br><span class="line">[INFO] |  |  +- com.google.protobuf:protobuf-java:jar:3.1.0:compile</span><br></pre></td></tr></table></figure></p>
+<p>如果这两个版本的jar包能够向下兼容的话，我只需要exclude掉2.6.0的jar包就可以手工了。<br>然而作者实践了一把，发现exclude 2.6.0的protobuf会导致hbase初始化异常，而exclude3.1.0的jar包会导致Calcite-core <code>could not found function **</code>这种低版本报错。</p>
+<p>这种情况下就需要两个版本的jar包并存，那怎么解决这个冲突问题呢？</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li><p><strong>maven-shade-plugin</strong><br>使用maven-shade-plugin的relocate功能，可以将内部依赖的包换成另外一个别名,如下代码所示，可以将名空间<code>com.google.protobuf</code>转换成<code>shaded.com.google.protobuf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.4.1&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;createDependencyReducedPom&gt;false&lt;/createDependencyReducedPom&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">                &lt;executions&gt;</span><br><span class="line">                    &lt;execution&gt;</span><br><span class="line">                        &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">                        &lt;goals&gt;</span><br><span class="line">                            &lt;goal&gt;shade&lt;/goal&gt;</span><br><span class="line">                        &lt;/goals&gt;</span><br><span class="line">                        &lt;configuration&gt;</span><br><span class="line">                            &lt;filters&gt;</span><br><span class="line">                                &lt;filter&gt;</span><br><span class="line">                                    &lt;artifact&gt;*:*&lt;/artifact&gt;</span><br><span class="line">                                    &lt;excludes&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.SF&lt;/exclude&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.DSA&lt;/exclude&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.RSA&lt;/exclude&gt;</span><br><span class="line">                                    &lt;/excludes&gt;</span><br><span class="line">                                &lt;/filter&gt;</span><br><span class="line">                            &lt;/filters&gt;</span><br><span class="line">                            &lt;relocations&gt;</span><br><span class="line">                                &lt;relocation&gt;</span><br><span class="line">                                    &lt;pattern&gt;com.google.protobuf&lt;/pattern&gt;</span><br><span class="line">                                    &lt;shadedPattern&gt;shaded.com.google.protobuf&lt;/shadedPattern&gt;</span><br><span class="line">                                &lt;/relocation&gt;</span><br><span class="line">                            &lt;/relocations&gt;</span><br><span class="line">                        &lt;/configuration&gt;</span><br><span class="line">                    &lt;/execution&gt;</span><br><span class="line">                &lt;/executions&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意maven-shade-plugin的版本，需要3.0+才能生效<br><a href="https://stackoverflow.com/questions/47476402/maven-shade-plugin-relocation-not-updating-a-entry-in-resource-file" target="_blank" rel="noopener">stackoverflow传送门</a></p>
+</li>
+<li><p>因为在shade的过程中，文件位置重新变过，所以也需要更新META-INF中的内容，shade plugin也提供这样的转换,<a href="http://aitozi.com/advance-maven-shade-plugin.html" target="_blank" rel="noopener">传送</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transformers&gt;</span><br><span class="line">    &lt;transformer implementation=&quot;org.apache.maven.plugins.shade.resource.ServicesResourceTransformer&quot;/&gt;</span><br><span class="line">&lt;/transformers&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://ffpeng90.github.io/2018/10/18/Hexo必学必会/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -970,7 +1125,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -992,7 +1147,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
