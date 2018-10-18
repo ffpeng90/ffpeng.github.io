@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Maven," />
+  <meta name="keywords" content="Maven,Shade," />
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
-<meta name="keywords" content="Maven">
+<meta name="keywords" content="Maven,Shade">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Maven-Shade-Plugin必知必会">
 <meta property="og:url" content="http://ffpeng90.github.io/2018/10/18/Maven-Shade-Plugin必知必会/index.html">
 <meta property="og:site_name" content="ffpeng&#39;s Essay">
 <meta property="og:description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-18T08:59:37.387Z">
+<meta property="og:updated_time" content="2018-10-18T09:11:33.611Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven-Shade-Plugin必知必会">
 <meta name="twitter:description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
@@ -392,6 +392,8 @@
 </li>
 <li><p>资源转换器， Shade插件提供了多种资源转换器，<a href="http://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html" target="_blank" rel="noopener">资源转换器-传送门</a><br>需要资源转换器，是因为Aggregating classes/resources from <strong>several artifacts into one uber JAR</strong> is straight forward as long as there is no overlap. Otherwise, some kind of logic to <strong>merge resources from several JARs is required</strong>. This is where resource transformers kick in.</p>
 </li>
+<li><p>执行package命令<code>mvn clean package</code>,会在target文件夹下生成一个uber-jar,以-shaded.jar为后缀的jar包。</p>
+</li>
 </ol>
 
       
@@ -435,6 +437,8 @@
         <div class="post-tags">
           
             <a href="/tags/Maven/" rel="tag"># Maven</a>
+          
+            <a href="/tags/Shade/" rel="tag"># Shade</a>
           
         </div>
       
@@ -561,7 +565,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

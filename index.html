@@ -382,6 +382,8 @@
 </li>
 <li><p>资源转换器， Shade插件提供了多种资源转换器，<a href="http://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html" target="_blank" rel="noopener">资源转换器-传送门</a><br>需要资源转换器，是因为Aggregating classes/resources from <strong>several artifacts into one uber JAR</strong> is straight forward as long as there is no overlap. Otherwise, some kind of logic to <strong>merge resources from several JARs is required</strong>. This is where resource transformers kick in.</p>
 </li>
+<li><p>执行package命令<code>mvn clean package</code>,会在target文件夹下生成一个uber-jar,以-shaded.jar为后缀的jar包。</p>
+</li>
 </ol>
 
           
@@ -1242,7 +1244,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
