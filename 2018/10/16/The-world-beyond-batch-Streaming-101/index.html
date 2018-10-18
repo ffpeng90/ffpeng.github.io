@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Streaming,Kafka,Flink," />
 
 
 
@@ -80,14 +80,15 @@
 
 
 <meta name="description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
+<meta name="keywords" content="Streaming,Kafka,Flink">
 <meta property="og:type" content="article">
 <meta property="og:title" content="The world beyond batch:Streaming 101">
 <meta property="og:url" content="http://ffpeng90.github.io/2018/10/16/The-world-beyond-batch-Streaming-101/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="ffpeng&#39;s Essay">
 <meta property="og:description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ffpeng90.github.io/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg">
-<meta property="og:updated_time" content="2018-10-17T14:26:47.169Z">
+<meta property="og:updated_time" content="2018-10-18T02:09:25.830Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The world beyond batch:Streaming 101">
 <meta name="twitter:description" content="引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：  商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法 海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用 当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。  尽管业务驱动对于流式数据的兴趣激增，但">
@@ -127,7 +128,7 @@
 
 
 
-  <title>The world beyond batch:Streaming 101 | Hexo</title>
+  <title>The world beyond batch:Streaming 101 | ffpeng's Essay</title>
   
 
 
@@ -166,7 +167,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Hexo</span>
+        <span class="site-title">ffpeng's Essay</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -197,6 +198,26 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
           </a>
         </li>
       
@@ -252,7 +273,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="ffpeng's Essay">
     </span>
 
     
@@ -282,6 +303,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Stream/" itemprop="url" rel="index">
+                    <span itemprop="name">Stream</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -372,7 +415,7 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>Donate comment here</div>
+  <div>Gifts of roses, hand a fragrance</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>Donate</span>
   </button>
@@ -398,6 +441,16 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Streaming/" rel="tag"># Streaming</a>
+          
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
+          
+            <a href="/tags/Flink/" rel="tag"># Flink</a>
+          
+        </div>
       
 
       
@@ -504,7 +557,25 @@
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
             
 
           </nav>
