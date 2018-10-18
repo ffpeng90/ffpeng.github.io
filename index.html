@@ -329,6 +329,17 @@
 
           
           
+             <span id="/2018/10/18/Impala常见问题汇总/" class="leancloud_visitors" data-flag-title="Impala常见问题汇总">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -351,17 +362,17 @@
       
         
           
-            <p>Impala好用，但也遍地是坑，这里Mark一下，持续更新。</p>
-<hr>
-<h1 id="multi-count-distinct不支持"><a href="#multi-count-distinct不支持" class="headerlink" title="multi count distinct不支持"></a>multi count distinct不支持</h1><p>sql如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">   upload_key, </span><br><span class="line">   max(my_timestamp) as upload_time, </span><br><span class="line">   max(color_key) as max_color_fk, </span><br><span class="line">   count(distinct color_key) as color_count, </span><br><span class="line">   count(distinct id) as toy_count </span><br><span class="line">from upload_table </span><br><span class="line">group by upload_key</span><br></pre></td></tr></table></figure></p>
-<p>报错内容：<code>AnalysisException: all DISTINCT aggregate functions need to have the same set of parameters as count(DISTINCT color_key); deviating function: count(DISTINCT id)</code></p>
-<p>A workaround would be two Selects and then a join:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">   t1.upload_key,</span><br><span class="line">   t1.upload_time,</span><br><span class="line">   t1.max_color_fk,</span><br><span class="line">   t1.color_count,</span><br><span class="line">   t2.toy_count</span><br><span class="line">from</span><br><span class="line"> (</span><br><span class="line">   select </span><br><span class="line">      upload_key, </span><br><span class="line">      max(my_timestamp) as upload_time, </span><br><span class="line">      max(color_key) as max_color_fk, </span><br><span class="line">      count(distinct color_key) as color_count</span><br><span class="line">   from upload_table </span><br><span class="line">   group by upload_key</span><br><span class="line"> ) as t1</span><br><span class="line">join</span><br><span class="line"> (</span><br><span class="line">   select </span><br><span class="line">      upload_key</span><br><span class="line">      count(distinct id) as toy_count </span><br><span class="line">   from upload_table </span><br><span class="line">   group by upload_key</span><br><span class="line"> ) as t2</span><br><span class="line">on t1. upload_key = t2.upload_key</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h1 id="Lateral-View语法不支持"><a href="#Lateral-View语法不支持" class="headerlink" title="Lateral View语法不支持"></a>Lateral View语法不支持</h1><p><a href="https://issues.apache.org/jira/browse/IMPALA-2679" target="_blank" rel="noopener">Impala-2679</a>  not support directly, but Impala 2.3 has support for complex types in Parquet, you should store complex data as complex type in parquet, then you can use it as map/array/set in impala 2.3</p>
-<hr>
-<h1 id="复杂的Hive-view不支持"><a href="#复杂的Hive-view不支持" class="headerlink" title="复杂的Hive view不支持"></a>复杂的Hive view不支持</h1><p>对于复杂的Hive view语法， Impala会直接抛出这种报错：<br><code>Failed to parse view-definition statement of view</code></p>
+          Impala好用，但也遍地是坑，这里Mark一下，持续更新。
 
-          
+multi count distinct不支持sql如下：12345678select    upload_key,    max(my_timestamp) as upload_time,    max(color_key) as m
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/18/Impala常见问题汇总/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -479,6 +490,17 @@
 
           
           
+             <span id="/2018/10/18/Maven-Shade-Plugin必知必会/" class="leancloud_visitors" data-flag-title="Maven-Shade-Plugin必知必会">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -501,42 +523,15 @@
       
         
           
-            <h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile</span><br><span class="line">[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:compile</span><br><span class="line">[INFO] |  +- com.google.protobuf:protobuf-java:jar:2.5.0:compile</span><br></pre></td></tr></table></figure></p>
-<p>而新加入的Calcite-core的jar包中内置了protobuf-java 3.1.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.calcite:calcite-core:jar:1.13.0:compile</span><br><span class="line">[INFO] |  +- org.apache.calcite.avatica:avatica-core:jar:1.10.0:compile</span><br><span class="line">[INFO] |  |  +- org.apache.calcite.avatica:avatica-metrics:jar:1.10.0:compile</span><br><span class="line">[INFO] |  |  +- com.google.protobuf:protobuf-java:jar:3.1.0:compile</span><br></pre></td></tr></table></figure></p>
-<p>如果这两个版本的jar包能够向下兼容的话，我只需要exclude掉2.6.0的jar包就可以手工了。<br>然而自己实践了一把之后，发现如果exclude 2.6.0的protobuf会导致hbase初始化异常，而exclude 3.1.0的jar包会导致Calcite-core <code>could not found function **</code>这种低版本报错。</p>
-<p>这种情况下就需要两个版本的jar包并存，那怎么解决这个冲突问题呢？</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
-<li><p><strong>maven-shade-plugin</strong><br>使用maven-shade-plugin的relocate功能，可以将内部依赖的包换成另外一个别名,如下代码所示，可以将名空间<code>com.google.protobuf</code>转换成<code>shaded.com.google.protobuf</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.4.1&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;createDependencyReducedPom&gt;false&lt;/createDependencyReducedPom&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">                &lt;executions&gt;</span><br><span class="line">                    &lt;execution&gt;</span><br><span class="line">                        &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">                        &lt;goals&gt;</span><br><span class="line">                            &lt;goal&gt;shade&lt;/goal&gt;</span><br><span class="line">                        &lt;/goals&gt;</span><br><span class="line">                        &lt;configuration&gt;</span><br><span class="line">                            &lt;filters&gt;</span><br><span class="line">                                &lt;filter&gt;</span><br><span class="line">                                    &lt;artifact&gt;*:*&lt;/artifact&gt;</span><br><span class="line">                                    &lt;excludes&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.SF&lt;/exclude&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.DSA&lt;/exclude&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.RSA&lt;/exclude&gt;</span><br><span class="line">                                    &lt;/excludes&gt;</span><br><span class="line">                                &lt;/filter&gt;</span><br><span class="line">                            &lt;/filters&gt;</span><br><span class="line">                            &lt;relocations&gt;</span><br><span class="line">                                &lt;relocation&gt;</span><br><span class="line">                                    &lt;pattern&gt;com.google.protobuf&lt;/pattern&gt;</span><br><span class="line">                                    &lt;shadedPattern&gt;shaded.com.google.protobuf&lt;/shadedPattern&gt;</span><br><span class="line">                                &lt;/relocation&gt;</span><br><span class="line">                            &lt;/relocations&gt;</span><br><span class="line">                        &lt;/configuration&gt;</span><br><span class="line">                    &lt;/execution&gt;</span><br><span class="line">                &lt;/executions&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>注意maven-shade-plugin的版本，需要3.0+才能生效<br><a href="https://stackoverflow.com/questions/47476402/maven-shade-plugin-relocation-not-updating-a-entry-in-resource-file" target="_blank" rel="noopener">stackoverflow传送门</a></p>
-</li>
-<li><p>因为在shade的过程中，文件位置重新变过，所以也需要更新META-INF中的内容，shade plugin也提供这样的转换,<a href="http://aitozi.com/advance-maven-shade-plugin.html" target="_blank" rel="noopener">传送</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transformers&gt;</span><br><span class="line">    &lt;transformer implementation=&quot;org.apache.maven.plugins.shade.resource.ServicesResourceTransformer&quot;/&gt;</span><br><span class="line">&lt;/transformers&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h1 id="Shade-Plugin进阶"><a href="#Shade-Plugin进阶" class="headerlink" title="Shade Plugin进阶"></a>Shade Plugin进阶</h1><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>Maven项目提供的Shade插件，能够将Maven应用打包为超级的uber-jar(也成为fat jar，或shaded jar)。在打包过程中可以</p>
-<ul>
-<li>包含依赖库</li>
-<li><strong>重命名依赖库的包名</strong>（以避免类库的冲突）</li>
-<li>有选择的打包</li>
-</ul>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Shade插件目前最近版本是3.1.0</p>
-<ol>
-<li>默认作用阶段为Package， 执行目标为shade</li>
-<li><p>pom文件配置方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.1.0&lt;/version&gt;</span><br><span class="line">    &lt;configuration&gt;</span><br><span class="line">          &lt;!-- put your configurations here --&gt;</span><br><span class="line">    &lt;/configuration&gt;</span><br><span class="line">    &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">            &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">            &lt;goals&gt;</span><br><span class="line">                &lt;goal&gt;shade&lt;/goal&gt;</span><br><span class="line">            &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">    &lt;/executions&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改部分依赖的包名（避免冲突）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.1.0&lt;/version&gt;</span><br><span class="line">    &lt;configuration&gt;</span><br><span class="line">          &lt;relocations&gt;</span><br><span class="line">                &lt;relocation&gt;</span><br><span class="line">                    &lt;pattern&gt;com.google.protobuf&lt;/pattern&gt;</span><br><span class="line">                    &lt;shadedPattern&gt;shaded.com.google.protobuf&lt;/shadedPattern&gt;</span><br><span class="line">                &lt;/relocation&gt;</span><br><span class="line">            &lt;/relocations&gt;</span><br><span class="line">    &lt;/configuration&gt;</span><br><span class="line">    &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">            &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">            &lt;goals&gt;</span><br><span class="line">                &lt;goal&gt;shade&lt;/goal&gt;</span><br><span class="line">            &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">    &lt;/executions&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>资源转换器， Shade插件提供了多种资源转换器，<a href="http://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html" target="_blank" rel="noopener">资源转换器-传送门</a><br>需要资源转换器，是因为Aggregating classes/resources from <strong>several artifacts into one uber JAR</strong> is straight forward as long as there is no overlap. Otherwise, some kind of logic to <strong>merge resources from several JARs is required</strong>. This is where resource transformers kick in.</p>
-</li>
-<li><p>执行package命令<code>mvn clean package</code>,会在target文件夹下生成一个uber-jar,以-shaded.jar为后缀的jar包。</p>
-</li>
-</ol>
-
-          
+          问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apac
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/18/Maven-Shade-Plugin必知必会/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -654,6 +649,17 @@
 
           
           
+             <span id="/2018/10/18/Hexo必学必会/" class="leancloud_visitors" data-flag-title="Hexo必学必会">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -676,35 +682,19 @@
       
         
           
-            <h1 id="hexo添加Categories-tags"><a href="#hexo添加Categories-tags" class="headerlink" title="hexo添加Categories/tags"></a>hexo添加Categories/tags</h1><ol>
-<li><p>通过shell新建一个页面，如下<br><code>hexo new page categories</code></p>
-</li>
-<li><p>编辑刚新建的页面，一般处在/sources/categories/index.md,  将页面类型设置为categories，主题将自动为这个页面显示所有分类。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: 分类</span><br><span class="line">date: 2014-12-22 12:39:04</span><br><span class="line">type: &quot;categories&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果需要关闭Category/Tag页面的评论区，只需添加这行：<code>comments: false</code></p>
-</li>
-<li><p>编辑网站配置文件_config.yml， 去掉menu中的ategories: /categories 前面的注释，结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: /</span><br><span class="line">  # categories: /categories    =&gt; categories: /categories</span><br><span class="line">  archives: /archives</span><br><span class="line">  # tags: /tags                =&gt; tags: /tags</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建你的博文，头部配置如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">title: Hello World</span><br><span class="line">tags:</span><br><span class="line">- Hello</span><br><span class="line">- World</span><br><span class="line">categories: </span><br><span class="line">- Diary</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>至此，应该就能正常展示category了， 同理tag标签页。</p>
-</li>
-</ol>
-<h1 id="hexo添加图片"><a href="#hexo添加图片" class="headerlink" title="hexo添加图片"></a>hexo添加图片</h1><p>hexo加载图片一定要用图床么？ 过程太痛苦。如果你只有少量的图片，完全可以放在本地加载。</p>
-<ol>
-<li><p>把网页配置文件_config.yml里的post_asset_folder选项设置为true,如下：<br><code>post_asset_folder: true</code><br>设置后，当你<code>hexo n &quot;xxxx&quot;</code>来生成md博文时，会在source/_post/目录下自动生成两个同名文件, 一个是Markdown，一个是资源目录文件夹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source/_post/</span><br><span class="line">    -test.md</span><br><span class="line">    -test</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在hexo目录下执行以下命令，下载安装一个可以上传本地图片的插件，from dalao:<a href="https://github.com/CodeFalling/hexo-asset-image" target="_blank" rel="noopener">dalao的git</a><br><code>npm install hexo-asset-image --save</code></p>
-</li>
-<li><p>最后在test.md中想引入图片时，先把图片复制到test这个文件夹中，然后只需要在test.md中按照markdown的格式引入图片：<br><code>[你想输入的替代文字](xxxx/图片名.jpg)</code></p>
-</li>
-</ol>
+          hexo添加Categories/tags
+通过shell新建一个页面，如下hexo new page categories
 
-          
+编辑刚新建的页面，一般处在/sources/categories/index.md,  将页面类型设置为categories，主题将自动为这个页面显示所有分类。
+123ti
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/18/Hexo必学必会/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -822,6 +812,17 @@
 
           
           
+             <span id="/2018/10/16/Markdown语法必学必会/" class="leancloud_visitors" data-flag-title="Markdown语法必学必会">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -844,61 +845,31 @@
       
         
           
-            <p>标题：</p>
-<h1 id="1级标题"><a href="#1级标题" class="headerlink" title="1级标题"></a>1级标题</h1><h2 id="2级标题"><a href="#2级标题" class="headerlink" title="2级标题"></a>2级标题</h2><h3 id="3级标题"><a href="#3级标题" class="headerlink" title="3级标题"></a>3级标题</h3><h4 id="4级标题"><a href="#4级标题" class="headerlink" title="4级标题"></a>4级标题</h4><h5 id="5级标题"><a href="#5级标题" class="headerlink" title="5级标题"></a>5级标题</h5><h6 id="6级标题"><a href="#6级标题" class="headerlink" title="6级标题"></a>6级标题</h6><hr>
-<h2 id="分割线：三个以上的短线即可作出分割线"><a href="#分割线：三个以上的短线即可作出分割线" class="headerlink" title="分割线：三个以上的短线即可作出分割线"></a>分割线：三个以上的短线即可作出分割线</h2><hr>
-<p>段落：以一个空行开始，以一个空行结束，中间的就是一个段落。</p>
-<hr>
-<p>无序列表：使用 - 加一个空格</p>
-<ul>
-<li>无需列表1</li>
-<li>无序列表2</li>
-<li>无序列表3</li>
-</ul>
-<hr>
-<p>有序列表：使用 数字 加一个英文句点</p>
-<ol>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-</ol>
-<hr>
-<p>强调<br><em>斜体强调</em><br><strong>粗体强调</strong></p>
-<hr>
-<p>code格式：反引号<br>Use the <code>printf()</code> function.<br>大块code格式：双反引号<br><code>There is a literal backtick (`) here.针对在代码区段内插入反引号的情况</code> </p>
-<hr>
-<p>超链接：<code>[链接名称](网址，标题)</code><br><code>[我是链接名](http://ffpeng90.github.io, &quot;我是标题&quot;)</code><br><a href="http://ffpeng90.github.io," title="我是标题">我是链接名</a></p>
-<p>直接展示链接的写法：<code>&lt;http://ffpeng90.github.io&gt;</code></p>
-<hr>
-<p>键盘键<br><kbd>Ctrl+[</kbd> and <kbd>Ctrl+]</kbd></p>
-<hr>
-<p>表格：</p>
-<table>
-<thead>
-<tr>
-<th>Item</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Computer</td>
-<td>$1600</td>
-</tr>
-<tr>
-<td>Phone</td>
-<td>$12</td>
-</tr>
-<tr>
-<td>Pipe</td>
-<td>$1</td>
-</tr>
-</tbody>
-</table>
+          标题：
+1级标题2级标题3级标题4级标题5级标题6级标题
+分割线：三个以上的短线即可作出分割线
+段落：以一个空行开始，以一个空行结束，中间的就是一个段落。
 
-          
+无序列表：使用 - 加一个空格
+
+无需列表1
+无序列表2
+无序列表3
+
+
+有序列表：使用 数字 加一个英文句点
+
+有序列表
+有序列表
+有序列表
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/16/Markdown语法必学必会/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1016,6 +987,17 @@
 
           
           
+             <span id="/2018/10/16/The-world-beyond-batch-Streaming-101/" class="leancloud_visitors" data-flag-title="The world beyond batch:Streaming 101">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -1038,111 +1020,19 @@
       
         
           
-            <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：</p>
-<ul>
-<li>商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法</li>
-<li>海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用</li>
-<li>当数据在到达的那一刻，可以使系统负载随着时间更均匀的分布，从而保证更一致性和可预测的资源消耗。</li>
-</ul>
-<p>尽管业务驱动对于流式数据的兴趣激增，但是与批处理流系统相比，现有的大多数流系统仍然相对不成熟，这导致了最近许多令人兴奋和活跃的发展在这个领域。作为已经在谷歌从事超大规模流式系统超过5+年的经验的人，至少可以说，我对这个流媒体时代精神感到高兴。</p>
-<p>我也有兴趣确保人们了解流媒体系统能够做到的一切以及如何最好地使用它们，特别是考虑到大多数现有批处理和流媒体系统之间存在的语义差距。为此，O’Reilly的优秀人员邀请我为Strata + Hadoop World London 2015做一个版面文章，关于我的Say Goodbye to Batch的交流。</p>
-<ol>
-<li>Stream101： 第一篇文章将会介绍一些基本背景信息，并澄清一些术语，然后深入讨论时间域的细节，以及数据处理的常用方法（批处理和流处理）的高级概述。</li>
-<li>数据流模型（The Dataflow Model）：第二篇文章将主要由云数据流使用的统一批处理+流模型的快速浏览组成，通过一个跨不同用例集合应用的具体示例进行简化。之后，我将对现有的批处理和流式系统进行简单的语义比较。</li>
-</ol>
-<p>所以，长篇大论的介绍，让我们开始。</p>
-<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>首先，我将介绍一些重要的背景信息，这些信息将有助于构建我想要讨论的其他主题。我们将分为以下三个特定部分：<br><strong>术语</strong>：要准确地谈论复杂的主题，需要精确定义术语。对于某些在当前使用中有过多解释的术语，我会试着确切地指出我说的时候的意思。<br><strong>能力</strong>：我将点评流式系统经常出现的缺点。我还提出了我认为数据处理系统构建者需要采用的思维方式，以满足现代数据消费者未来的需求。<br><strong>时域</strong>：我将介绍与数据处理相关的两个主要时间域，显示它们之间的关系，并指出这两个域所带来的一些困难。</p>
-<h2 id="术语：什么是Streaming"><a href="#术语：什么是Streaming" class="headerlink" title="术语：什么是Streaming"></a>术语：什么是Streaming</h2><p>在继续之前，我想先解决一件事：什么是Streaming？今天使用术语“Streaming”来表示各种不同的东西（为简单起见，我到目前为止一直使用它有点松散），这可能导致对Streaming实际上是什么或者Streaming System的实际能力的误解。因此，我更愿意在某种程度上精确地定义这个术语</p>
-<p>问题的关键在于许多应该由它们所描述的东西（例如，无界数据处理，近似结果等），变成了它们在之前是如何完成来描述（即通过流式执行引擎）。这种缺乏精确性的术语会影响Streaming的实际意义，并且在某些情况下，会给StreamingSystem本身带来负担，暗示其功能仅限于经常被描述为Streaming的特征，例如近似或推测结果。鉴于精心设计的StreamingSystem与任何现有的批量引擎一样能够（技术上更加如此）产生正确，一致，可重复的结果，我更倾向于将术语Streaming分离为一个非常具体的含义：一种考虑了无限的数据集的数据处理引擎。仅此而已。（为了完整起见，或许值得一提的是，这个定义包括真正的流式和微批量实现。）</p>
-<p>至于Streaming的其他常见用法，这里有一些我经常听到的，每一个都有更精确的描述性术语，我建议我们作为一个社区应该尝试采用：</p>
-<ol>
-<li>无边界数据：一种不断增长的，基本上无限的数据集。这些通常被称为“流式数据”。然而，当应用于数据集时，术语Streaming或batch是有问题的，因为如上所述，它们意味着使用某种类型的执行引擎来处理那些数据集。实际上，所讨论的两类数据集之间的关键区别在于它们的有限性，因此最好用捕获这种区别的术语来表征它们。因此，我将无限“Streaming”数据集称为无界数据，将有限“batch”数据集称为有界数据。</li>
-<li>无界数据处理：一种持续的数据处理模式，应用于上述类型的无界数据。尽管我个人喜欢使用术语Streaming来描述这种类型的数据处理，但在这种情况下它的使用再次意味着使用流执行引擎，这是具有误导性的;自批处理系统首次构思以来，已经使用批量引擎的重复运行来处理无界数据（相反，精心设计的流式传输系统能够处理超过有界数据的“批量”工作负载）。因此，为了清楚起见，我将简称为无界数据处理。</li>
-<li>低延迟，近似和/或推测结果：这些类型的结果通常与流引擎相关联。批处理系统传统上没有考虑低延迟或推测结果的设计这一事实是一个历史人工制品，仅此而已。当然，如果指示，批量引擎完全能够产生近似结果。因此，与上述术语一样，将这些结果描述为它们（低延迟，近似和/或推测）比通过它们历史上如何表现（通过流引擎）更好。</li>
-</ol>
-<p>从现在开始，每当我使用术语“Streaming”时，你可以放心地认为我的意思是为无界数据集设计的执行引擎，仅此而已。当我说上述任何其他术语时，就仅仅代表无界数据，无界数据处理或低延迟/近似/推测结果。这些是我们在Cloud Dataflow中采用的术语，我鼓励其他人采取类似的立场。</p>
-<h2 id="关于Streaming的被极度夸大的局限性"><a href="#关于Streaming的被极度夸大的局限性" class="headerlink" title="关于Streaming的被极度夸大的局限性"></a>关于Streaming的被极度夸大的局限性</h2><p>接下来，我们来谈谈Streaming Systems可以做什么和不能做什么，重点是可以做的事;在这些文章中，我想要介绍的最重要的事情之一就是精心设计的Streaming System的功能。Streaming Systems长期以来一直被用在提供低延迟，不准确/推测的结果的数据领域，通常与更强大的批处理系统相结合，以提供最终正确的结果，即Lambda架构。</p>
-<p>对于那些尚未熟悉Lambda架构的人来说，基本的想法是在Batch System旁边运行Streaming System，两者都执行基本相同的计算。Streaming System提供低延迟，不准确的结果（或者由于使用近似算法，或者因为Streaming System本身不提供正确性），并且一段时间之后Batch System启动来为您提供正确的输出。最初由Twitter的Nathan Marz（Storm的创造者）提出，它最终取得了相当大的成功，因为事实上，它当时是一个很棒的主意;Streaming Engine在正确性上有点失望，Batch Engine本身就像你想的那样笨拙，所以Lambda给你一个方法来保证鱼和熊掌兼得。遗憾的是，维护Lambda系统很麻烦：您需要构建，提供和维护两个独立版本的数据管道，然后在某个时刻合并两个数据管道的结果。</p>
-<p>作为一个多年来致力于强大的Streaming Engine的人，我也发现Lambda架构的整个原理有点令人讨厌。不出所料，我是Jay Kreps的文章Questioning the Lambda Architecture的忠实粉丝。这篇文章是曝光度比较高的反对双模执行必要性的文章之一;漂亮。 Kreps用像Kafka这样的可重放系统，在流互连的背景下解决了可重复性的问题，并且深入提出了Kappa架构，这基本上意味着使用一个精心设计的系统来运行一个数据管道，该系统适合于手头的工作。我不相信概念本身需要一个名字，但我原则上完全支持这个想法。</p>
-<p>老实说，我会更进一步。我认为精心设计的Streaming System实际上提供了包含批处理功能的超集。Modulo perhaps an efficiency delta，看来应该不需要这些的Batch System。我要感谢Flink开发将这个想法铭记于心并构建了一个all-streaming-all-the-time的系统，即使在“Batch”模式下也是如此;我喜欢它。</p>
-<p>所有这一切的必然结果是Streaming System的广泛成熟与无限数据处理的强大框架相结合，将Lambda架构比下去，将其变成大数据时代的历史。我相信现在是实现这一目标的时候了。为了在Batch擅长的领域打败Batch System，你仅仅只需要两件事：</p>
-<ol>
-<li><strong>Correctness</strong> — 这次可以和Batch打成平手<br>正确性最核心的事可以归结为一致性存储。Streaming System需要一种方法来检查持久状态随着时间的推移（Kreps在他的“为什么本地状态是流处理后的基本原语”中已经讨论过了），并且它必须经过精心设计，足以在机器故障的情况下保持一致。几年前，当Spark Streaming首次出现在公共大数据场景中时，它是一个在其他黑暗流媒体世界中一致的灯塔。值得庆幸的是，从那时起情况有所改善，但是有多少Streaming System仍然试图在没有强大一致性的情;我真的不敢相信，最多一次处理仍然是一件事，但确实如此。(Thankfully, things have improved somewhat since then, but it is remarkable how many streaming systems still try to get by without strong consistency; I seriously cannot believe that at-most-once processing is still a thing, but it is.)<br>重申一下，因为这一点非常重要：一次性处理需要强一致性，这是正确性所必需的，这是任何系统想要达到或超过Batch Systems的必要条件。除非你真的不关心你的结果，否则我恳请你避开任何不提供强烈一致状态的Streaming System。Batch systems不要求您提前验证它们是否能够产生正确的答案;不要浪费你的时间在不能满足相同标准的Streaming System上。</li>
-</ol>
-<p>如果您想了解更多关于在Streaming System中怎么获得强一致性所需的内容，我建议您查看MillWheel和Spark Streaming论文。两篇论文都花了大量时间讨论一致性。鉴于文献和其他地方有关该主题的高质量信息，我不会在这些帖子中进一步介绍。</p>
-<ol start="2">
-<li><strong>Tools for reasoning about time</strong> — 这次将完胜Batch<br>优秀的时间推理工具对于处理有事件时间偏差的无界、无序数据至关重要。越来越多的现代数据集具有这些特征，现有的batch systems（以及大多数streaming systems）缺乏必要的工具来应对它们所带来的困难。我将花费这篇文章的剩余部分，以及下一篇文章的大部分内容，解释并关注这一点。<br>首先，我们要对时域的重要概念有一个基本的了解，之后我们将深入研究不同事件时间偏差的无界无序数据的含义。然后，本文的其余部分将来探讨Batch&amp;Streaming System的有界和无界数据处理的常用方法。</li>
-</ol>
-<h2 id="Event-time-vs-processing-time"><a href="#Event-time-vs-processing-time" class="headerlink" title="Event time vs. processing time"></a>Event time vs. processing time</h2><p>要谈论无限数据的处理，需要清楚地了解所涉及的时间领域。在任何数据处理系统中，通常有两个我们关心的时间域：</p>
-<ul>
-<li><strong>Event time</strong>, 事件实际发生的时间。</li>
-<li><strong>Processing time</strong>,这是在Streaming System中观察事件的时间<br>并非所有的Case都关心事件时间（如果你的事情没有，那么万岁！ - 你的生活更容易），但很多人都关心这个。比如说包括表征用户随时间的行为，大多数计费应用程序以及许多类型的异常检测，不一而足。<br>在理想的世界中，事件时间和处理时间总是相等的，事件在发生时立即处理。然而，现实并非如此，事件时间和处理时间之间的偏差不仅非零，而且通常是底层输入源，执行引擎和硬件特性的高度可变函数。可能影响偏差程度的事情包括：</li>
-<li>共享资源限制，例如网络拥塞，网络分区或非专用环境中的共享CPU。</li>
-<li>软件原因，例如分布式系统逻辑，临界区等。</li>
-<li>数据本身的特征，包括密钥分布，吞吐量的变化或无序的变化（例如，在离线使用整个航班之后，人们将他们的电话带出飞机模式的飞机）。</li>
-</ul>
-<p>因此，如果您在任何实际系统中绘制事件时间和处理时间的进度，通常会得到一些看起来有点像图1中的红线的东西。<br><img src="/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig01_timedomains-ea86183a3a9d99179a6e6f5c521ffdbf.jpg" alt="Figure 1: Example time domain mapping. The X-axis represents event time completeness in the system, i.e. the time X in event time up to which all data with event times less than X have been observed. The Y-axis represents the progress of processing time, i.e. normal clock time as observed by the data processing system as it executes. Image: Tyler Akidau."></p>
-<p>斜率为1的黑色虚线表示理想值，其中处理时间和事件时间完全相等;红线代表现实。在这个例子中，系统在处理时间开始时滞后一点，在中间偏向理想状态，然后在结束时稍微滞后一点。理想线和红线之间的水平距离是处理时间和事件时间之间的偏差。这种偏差本质上是处理流水线引入的延迟。</p>
-<p>由于事件时间和处理时间之间的映射不是静态的，这意味着如果您关心事件时间（即事件实际发生的时间），则无法仅在管道中观察数据的上下文中分析数据。不幸的是，这是大多数现有系统为无界数据设计的方式。为了应对无界数据集的无限性，这些系统通常提供一些窗口化输入数据的概念。我们将在下面深入讨论窗口，但它实质上意味着将数据集沿时间边界切割成有限的片段。</p>
-<p>如果您关心正确性并且有兴趣在事件时间的上下文中分析您的数据，则无法像大多数现有系统那样使用处理时间（即处理时间窗口）来定义这些时间边界;在处理时间和事件时间之间没有一致的相关性，你的一些事件时间数据将在错误的处理时间窗口中结束（由于分布式系统的固有滞后，许多类型的输入源的在线/离线性质，等等，把正确性扔出窗外。我们将在下面的一些示例以及下一篇文章中更详细地研究这个问题。</p>
-<p>不幸的是，当按事件时间窗口化时，图片并不完全乐观。在无界数据的情况下，无序和变量偏斜会导致事件时间窗口的完整性问题：缺少处理时间和事件时间之间的可预测映射，如何确定何时观察到给定事件时间X的所有数据？对于许多真实世界的数据源，你根本做不到。当今使用的绝大多数数据处理系统都依赖于某些完整性概念，这使得它们在应用于无界数据集时处于严重劣势。</p>
-<p>我建议不要试图将无限数据整理成最终变得完整的有限批次信息，而应该设计工具，让我们生活在这些复杂数据集所带来的不确定性的世界中。新数据将到来，旧数据可能会被撤回或更新，我们构建的任何系统都应该能够自己处理这些事实，完整性概念是一种方便的优化而不是语义必需。</p>
-<p>在深入探讨如何使用Cloud Dataflow中使用的数据流模型构建此类系统之前，让我们完成一个更有用的背景：常见的数据处理模式。</p>
-<h2 id="Data-processing-patterns"><a href="#Data-processing-patterns" class="headerlink" title="Data processing patterns"></a>Data processing patterns</h2><p>目前为止，我们已经建立了足够的背景，我们可以开始研究当今有界和无界数据处理中常见的核心类型的使用模式。我们将在我们关注的两种主要类型的引擎的上下文中查看这两种类型的处理（相关的）（批处理和流式传输，在这种情况下，我基本上将微批处理与流式传输混合起来，因为两者之间的差异在这个层面上并不十分重要）。</p>
-<h3 id="Bounded-data"><a href="#Bounded-data" class="headerlink" title="Bounded data"></a>Bounded data</h3><p>处理有界数据非常简单，并且可能对每个人都很熟悉。在下图中，我们从左侧开始，数据集充满了熵。我们通过一些数据处理引擎（通常是批处理，虽然设计良好的流引擎也能正常工作）运行它，例如MapReduce，并在右端使用具有更大内在价值的新结构化数据集：<br><img src="/2018/10/16/The-world-beyond-batch-Streaming-101/post01_fig02_classicbatch-65147a08a7902873d46be1e5805c4bd4.jpg" alt="Figure 2: Bounded data processing with a classic batch engine. A finite pool of unstructured data on the left is run through a data processing engine, resulting in corresponding structured data on the right. Image: Tyler Akidau."></p>
-<p>当然，作为该方案的一部分，您可以实际计算的内容存在无限变化，但整体模型非常简单。更有趣的是处理无界数据集的任务。现在让我们看看通常处理无限数据的各种方式，从传统批处理引擎使用的方法开始，然后结束可以采用专为无界数据设计的系统的方法，例如大多数流媒体或微批处理引擎。</p>
-<h3 id="Unbounded-data-—-batch"><a href="#Unbounded-data-—-batch" class="headerlink" title="Unbounded data — batch"></a>Unbounded data — batch</h3><p>批量引擎虽然没有明确地设计为无限数据，但已被用于处理无界数据集，因为批量系统最初是在构思之前。正如人们所预料的那样，这种方法围绕着将无界数据切割成适合批处理的有界数据集的集合。</p>
-<h4 id="Fixed-windows"><a href="#Fixed-windows" class="headerlink" title="Fixed windows"></a>Fixed windows</h4><p>使用批处理引擎的重复运行来处理无界数据集的最常用方法是将输入数据窗口化为固定大小的窗口，然后将每个窗口作为单独的有界数据源处理。特别是对于像日志这样的输入源，其中事件可以写入目录和文件层次结构，其名称编码它们对应的窗口，这种事情在乍一看似乎非常简单，因为你基本上执行了基于时间的随机数来获取数据提前进入适当的事件时间窗口。</p>
-<p>但实际上，大多数系统仍然存在完整性问题需要处理：如果由于网络分区而导致某些事件延迟到达日志，该怎么办？如果您的活动是全球收集的，并且必须在处理之前转移到公共位置，该怎么办？如果您的活动来自移动设备怎么办？这意味着可能需要某种缓解（例如，在您确定已收集所有事件之前延迟处理，或者在数据迟到时重新处理给定窗口的整个批处理）。</p>
-<h4 id="Sessions"><a href="#Sessions" class="headerlink" title="Sessions"></a>Sessions</h4><p>当您尝试使用批处理引擎将无限数据处理为更复杂的窗口策略（如会话）时，此方法会更加崩溃。会话通常被定义为由不活动间隙终止的活动时段（例如，对于特定用户）。使用典型的批处理引擎计算会话时，您经常会遇到按批次分割的会话，如下图中的红色标记所示。可以通过增加批量大小来减少拆分数量，但代价是延迟增加。另一种选择是添加额外的逻辑来拼接先前运行的会话，但代价是进一步复杂化。</p>
-<p>无论哪种方式，使用经典的批处理引擎来计算会话都不太理想。一种更好的方法是以流式方式构建会话，稍后我们将对此进行介绍。</p>
-<h3 id="Unbounded-data-—-streaming"><a href="#Unbounded-data-—-streaming" class="headerlink" title="Unbounded data — streaming"></a>Unbounded data — streaming</h3><p>与大多数基于批处理的无界数据处理方法的临时性质相反，流式系统是针对无界数据构建的。正如我前面提到的，对于许多真实的分布式输入源，您不仅会发现自己处理无界数据，还会处理以下数据：</p>
-<ul>
-<li><strong>Highly unordered with respect to event times</strong>,这意味着如果要在发生它们的上下文中分析数据，则需要在管道中进行某种基于时间的混洗。</li>
-<li><strong>Of varying event time skew</strong>, 这意味着你不能只假设你总能看到给定事件时间X的大部分数据在某个恒定的时间ε之内。</li>
-</ul>
-<p>在处理具有这些特征的数据时，可以采取一些方法。我通常将这些方法分为四组：</p>
-<ul>
-<li>Time-agnostic</li>
-<li>Approximation</li>
-<li>Windowing by processing time</li>
-<li>Windowing by event time<br>我们现在花一点时间来研究这些方法。</li>
-</ul>
-<h4 id="Time-agnostic"><a href="#Time-agnostic" class="headerlink" title="Time-agnostic"></a>Time-agnostic</h4><p>在时间基本上不相关的情况下使用时间不可知处理 - 即，所有相关逻辑都是数据驱动的。由于有关此类使用案例的所有内容都是由更多数据的到来决定的，因此除了基本数据传输之外，流媒体引擎实际上没有什么特别需要支持的。因此，基本上所有流媒体系统都支持开箱即用的时间不可用的用例（一致性保证系统到系统的差异，当然，对于那些关心正确性的人来说）。批处理系统也非常适用于无界数据源的时间不可知处理，只需将无界源切割成有界数据集的任意序列并独立处理这些数据集。我们将在本节中看一些具体的例子，但考虑到处理与时间无关的处理的直接性，除此之外不会花费太多时间。</p>
-<h5 id="Filtering"><a href="#Filtering" class="headerlink" title="Filtering"></a>Filtering</h5><p>时间不可知处理的一种非常基本的形式是过滤。想象一下，您正在处理Web流量日志，并且您想要过滤掉所有不是来自特定域的流量。你会看到每个记录到达时，查看它是否属于感兴趣的域，如果没有则删除它。由于这种事情在任何时候都只依赖于单个元素，因此数据源无限制，无序且事件时间偏差变化的事实无关紧要。</p>
-<h5 id="Inner-joins"><a href="#Inner-joins" class="headerlink" title="Inner-joins"></a>Inner-joins</h5><p>另一个与时间无关的例子是内连接（或哈希连接）。当连接两个无界数据源时，如果您只关心来自两个源的元素到达时的连接结果，则逻辑上没有时间元素。在看到来自一个源的值后，您可以简单地将其缓冲为持久状态;一旦来自另一个源的第二个值到达，您只需要发出连接记录。 （事实上​​，你可能想要某种垃圾收集策略用于未经许可的部分连接，这可能是基于时间的。但是对于很少或没有未完成连接的用例，这样的事情可能不是问题。）</p>
-<p>将语义切换到某种外连接会引入我们所讨论的数据完整性问题：一旦你看到了连接的一面，你怎么知道另一面是否会到达？说实话，你没有，所以你必须引入一些超时的概念，这会引入一个时间元素。时间元素本质上是一种窗口形式，我们将在一瞬间更加密切地关注它。</p>
-<h4 id="Approximation-algorithms"><a href="#Approximation-algorithms" class="headerlink" title="Approximation algorithms"></a>Approximation algorithms</h4><p>第二个主要类别的方法是近似算法，例如近似的前N个，流式K-means等。它们采用无限的输入源并提供输出数据，如果你眯着眼睛看，它们看起来或多或少像你的那样我希望得到。近似算法的优点在于，通过设计，它们的开销很低，并且设计用于无界数据。缺点是它们存在有限的一组，算法本身往往很复杂（这使得很难想出新的算法），它们的近似性质限制了它们的效用。</p>
-<p>值得注意的是：这些算法通常在其设计中具有一些时间元素（例如，某种内置衰变）。并且由于它们在到达时处理元素，因此该时间元素通常基于处理时间。这对于在其近似上提供某种可证明的误差界限的算法尤其重要。如果这些误差范围是以按顺序到达的数据为基础的，那么当您向算法提供具有不同事件时间偏差的无序数据时，它们基本上没有任何意义。要记住的事情。</p>
-<p>近似算法本身是一个引人入胜的主题，但由于它们本质上是时间不可知处理的另一个例子（以算法本身的时间特征为模），它们使用起来非常简单，因此在我们目前的重点下不值得进一步关注。</p>
-<h4 id="Windowing"><a href="#Windowing" class="headerlink" title="Windowing"></a>Windowing</h4><p>其余两种无限制数据处理方法都是窗口的变化。在深入研究它们之间的差异之前，我应该清楚地说明窗口的确切含义，因为我只是简单地触及了它。窗口化只是获取数据源（无界或有界）的概念，并沿着时间边界将其切割成有限的块以进行处理。下图显示了三种不同的窗口模式：</p>
-<h5 id="Fixed-windows-1"><a href="#Fixed-windows-1" class="headerlink" title="Fixed windows"></a>Fixed windows</h5><p>固定窗口将时间切割成具有固定大小的时间长度的段。通常（如图8所示），固定窗口的段均匀地应用于整个数据集，这是对齐窗口的示例。在某些情况下，希望对不同数据子集（例如，每个键）的窗口进行相移以随时间更均匀地扩展窗口完成负载，而不是未对齐窗口的示例，因为它们在数据上变化。</p>
-<h5 id="Sliding-windows"><a href="#Sliding-windows" class="headerlink" title="Sliding windows"></a>Sliding windows</h5><p>固定窗口的推广，滑动窗口由固定长度和固定周期定义。如果周期小于长度，则窗口重叠。如果周期等于长度，则您有固定的窗口。如果周期大于长度，则会有一种奇怪的采样窗口，它只会随着时间的推移查看数据的子集。与固定窗口一样，滑动窗口通常是对齐的，但在某些用例中可能不对齐作为性能优化。注意，图8中的滑动窗口是按原样绘制的，以给出滑动感;实际上，所有五个窗口都将应用于整个数据集。</p>
-<h5 id="Sessions-1"><a href="#Sessions-1" class="headerlink" title="Sessions"></a>Sessions</h5><p>动态窗口的一个例子，会话由大于某个超时的不活动间隙终止的事件序列组成。会话通常用于通过将一系列与时间相关的事件（例如，在一次观看中观看的一系列视频）组合在一起来分析用户随时间的行为。会话很有意思，因为它们的长度不能先验地定义;它们取决于所涉及的实际数据。它们也是未对齐窗口的规范示例，因为会话实际上在不同的数据子集（例如，不同用户）之间从不相同。</p>
-<p>讨论的两个时间域 - 处理时间和事件时间 - 基本上是我们关心的两个[2]。窗口化在两个域中都有意义，因此我们将详细查看每个窗口并查看它们之间的区别。由于处理时间窗口在现有系统中非常普遍，我将从那里开始。</p>
-<h4 id="Windowing-by-processing-time"><a href="#Windowing-by-processing-time" class="headerlink" title="Windowing by processing time"></a>Windowing by processing time</h4><p>当按处理时间窗口化时，系统基本上将输入数据缓冲到窗口中，直到经过一定量的处理时间。例如，在五分钟固定窗口的情况下，系统会将数据缓冲五分钟的处理时间，之后它会将这五分钟内观察到的所有数据视为一个窗口并将它们发送到下游进行处理。</p>
-<p>处理时间窗口有一些很好的特性：</p>
-<ul>
-<li><strong>简单</strong>，由于您从不担心在一段时间内改变数据，因此实现非常简单。你只需在它们到达时缓冲它们并在窗口关闭时将它们发送到下游。</li>
-<li><strong>判断窗口的完整性很简单</strong>。由于系统完全了解是否已经看到窗口的所有输入，因此可以就给定窗口是否完整做出完美的决定。这意味着当按处理时间进行窗口化时，无需以任何方式处理“延迟”数据。</li>
-<li>如果您想要在观察时推断出有关源的信息，那么处理时间窗口正是您想要的。许多监测方案都属于这一类。想象一下，跟踪发送到全球规模Web服务的每秒请求数。为了检测中断而计算这些请求的速率是处理时间窗口的完美使用。</li>
-</ul>
-<p>除了优点之外，处理时间窗口有一个非常大的缺点：如果有问题的数据具有与它们相关联的事件时间，那么如果处理时间窗口要反映实际上这些事件的实际情况，那么这些数据必须按事件时间顺序到达发生了。不幸的是，在许多真实的分布式输入源中，事件时序数据并不常见。</p>
-<p>举一个简单的例子，想象一下任何收集使用统计数据以供以后处理的移动应用程序。如果给定的移动设备在任何时间内脱机（短暂的连接丢失，飞越全国时的飞行模式等），则在该设备再次上线之前不会上传在此期间记录的数据。这意味着数据可能会以分钟，小时，天，周或更长的事件时间偏差到达。当处理时间窗口化时，基本上不可能从这样的数据集中得出任何有用的推论。</p>
-<p>作为另一个例子，当整个系统健康时，许多分布式输入源似乎可以提供事件时间有序（或非常接近）的数据。不幸的是，健康时事件时间偏差对于输入源来说是低的这一事实并不意味着它总会保持这种状态。考虑一个处理在多个大洲收集的数据的全球服务。如果网络问题跨越带宽受限的跨大陆线路（遗憾的是，这种情况非常常见）会进一步降低带宽和/或增加延迟，突然一部分输入数据可能会以比以前更大的偏差开始到达。如果您通过处理时间来处理该数据，那么您的窗口不再代表其中实际发生的数据;相反，当事件到达处理管道时，它们代表时间窗口，这是旧数据和当前数据的任意混合。</p>
-<p>我们在这两种情况下真正想要的是以一种对事件到达顺序稳健的方式按事件时间窗口数据。我们真正想要的是事件时间窗口。</p>
-<h4 id="Windowing-by-event-time"><a href="#Windowing-by-event-time" class="headerlink" title="Windowing by event time"></a>Windowing by event time</h4><p>当您需要观察有限块中反映事件实际发生时间的数据源时，可以使用事件时间窗口。这是开窗的黄金标准。遗憾的是，目前使用的大多数数据处理系统都缺乏对它的原生支持（尽管任何具有良好一致性模型的系统，如Hadoop或Spark Streaming，都可以作为构建这种窗口系统的合理基础）。</p>
-<p>此图显示了将无界源窗口化为一小时固定窗口的示例：</p>
-<p>图中的实线白线表示两个特别感兴趣的数据。这两个数据都到达处理时间窗口，这些时间窗口与它们所属的事件时间窗口不匹配。因此，如果这些数据已被窗口化为处理关注事件时间的用例的处理时间窗口，则计算结果将是不正确的。正如人们所料，事件时间正确性是使用事件时间窗口的一个好处。</p>
-<p>关于无界数据源的事件时间窗口的另一个好处是，您可以创建动态大小的窗口，例如会话，而不会在通过固定窗口生成会话时观察到任意分割（正如我们之前在“无界数据”中的会话示例中看到的那样） - 批次“部分”：</p>
-<p>当然，强大的语义很少是免费的，事件时间窗也不例外。事件时间窗口有两个显着的缺点，因为窗口必须经常比窗口本身的实际长度更长（处理时间）：</p>
-<ul>
-<li>缓冲： 由于延长了窗口寿命，因此需要更多的数据缓冲。值得庆幸的是，持久存储通常是大多数数据处理系统所依赖的资源类型中最便宜的（其他类型主要是CPU，网络带宽和RAM）。因此，当使用具有强一致性持久状态和体面内存缓存层的任何精心设计的数据处理系统时，这个问题通常比人们想象的要少得多。而且，许多有用的聚合不要求整个输入集被缓冲（例如，总和或平均），而是可以递增地执行，其中存储在持久状态中的小得多的中间聚合。</li>
-<li>完整性：鉴于我们通常没有很好的方法知道我们何时看到给定窗口的所有数据，我们如何知道窗口的结果何时可以实现？事实上，我们根本就没有。对于许多类型的输入，系统可以通过类似MillWheel的水印（我将在第2部分中详细讨论）提供合理准确的窗口完成启发式估计。但是在绝对正确性至关重要的情况下（再次考虑计费），唯一真正的选择是为管道构建者提供一种方式来表达何时需要实现窗口的结果，以及如何随着时间的推移改进这些结果。处理窗口完整性（或缺少窗口完整性）是一个引人入胜的主题，但也许最好在具体示例的背景下进行探讨，我们将在下一次讨论。</li>
-</ul>
-<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>呼！那是很多信息。对于那些已经做到这一点的人：你将受到赞扬！在这一点上，我们大致已经完成了我想要覆盖的材料的一半，所以回过头来回顾一下我到目前为止所涵盖的内容可能是合理的，并且在进入第2部分之前让事情稍微解决。所有这些的好处是第1部分是无聊的职位;第2部分是真正开始的乐趣所在。</p>
+          引言流式数据处理在如今的大数据领域是很重要的，无非就是以下这些原因：
 
-          
+商业公司更加渴望及时的数据，而切换成流式技术栈是达到更低的延时的一种方法
+海量无边界的数据集合在现代商业公司里面都是越来越普遍，这些数据需要使用一个专业为无限数据设计的系统才能更好的为人所用
+当数据在到达的那一刻，可以使系统负载
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/16/The-world-beyond-batch-Streaming-101/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1260,6 +1150,17 @@
 
           
           
+             <span id="/2018/09/29/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -1282,17 +1183,15 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/29/hello-world/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1634,6 +1533,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("XL3sNNtJCxfkW9Ye2tSuQKb9-gzGzoHsz", "Hf2F2Pm3wDCD5VzpLjVAIsVP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
