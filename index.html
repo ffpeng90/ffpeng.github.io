@@ -258,6 +258,156 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ffpeng90.github.io/2018/10/18/Impala常见问题汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="peng feifei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ffpeng's Essay">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/18/Impala常见问题汇总/" itemprop="url">Impala常见问题汇总</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-18T17:23:44+08:00">
+                2018-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Impala好用，但也遍地是坑，这里Mark一下，持续更新。</p>
+<hr>
+<h1 id="multi-count-distinct不支持"><a href="#multi-count-distinct不支持" class="headerlink" title="multi count distinct不支持"></a>multi count distinct不支持</h1><p>sql如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">   upload_key, </span><br><span class="line">   max(my_timestamp) as upload_time, </span><br><span class="line">   max(color_key) as max_color_fk, </span><br><span class="line">   count(distinct color_key) as color_count, </span><br><span class="line">   count(distinct id) as toy_count </span><br><span class="line">from upload_table </span><br><span class="line">group by upload_key</span><br></pre></td></tr></table></figure></p>
+<p>报错内容：<code>AnalysisException: all DISTINCT aggregate functions need to have the same set of parameters as count(DISTINCT color_key); deviating function: count(DISTINCT id)</code></p>
+<p>A workaround would be two Selects and then a join:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">   t1.upload_key,</span><br><span class="line">   t1.upload_time,</span><br><span class="line">   t1.max_color_fk,</span><br><span class="line">   t1.color_count,</span><br><span class="line">   t2.toy_count</span><br><span class="line">from</span><br><span class="line"> (</span><br><span class="line">   select </span><br><span class="line">      upload_key, </span><br><span class="line">      max(my_timestamp) as upload_time, </span><br><span class="line">      max(color_key) as max_color_fk, </span><br><span class="line">      count(distinct color_key) as color_count</span><br><span class="line">   from upload_table </span><br><span class="line">   group by upload_key</span><br><span class="line"> ) as t1</span><br><span class="line">join</span><br><span class="line"> (</span><br><span class="line">   select </span><br><span class="line">      upload_key</span><br><span class="line">      count(distinct id) as toy_count </span><br><span class="line">   from upload_table </span><br><span class="line">   group by upload_key</span><br><span class="line"> ) as t2</span><br><span class="line">on t1. upload_key = t2.upload_key</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="Lateral-View语法不支持"><a href="#Lateral-View语法不支持" class="headerlink" title="Lateral View语法不支持"></a>Lateral View语法不支持</h1><p><a href="https://issues.apache.org/jira/browse/IMPALA-2679" target="_blank" rel="noopener">Impala-2679</a>  not support directly, but Impala 2.3 has support for complex types in Parquet, you should store complex data as complex type in parquet, then you can use it as map/array/set in impala 2.3</p>
+<hr>
+<h1 id="复杂的Hive-view不支持"><a href="#复杂的Hive-view不支持" class="headerlink" title="复杂的Hive view不支持"></a>复杂的Hive view不支持</h1><p>对于复杂的Hive view语法， Impala会直接抛出这种报错：<br><code>Failed to parse view-definition statement of view</code></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://ffpeng90.github.io/2018/10/18/Maven-Shade-Plugin必知必会/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1222,7 +1372,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1233,7 +1383,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1244,7 +1394,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
