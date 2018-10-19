@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="HelloWorld," />
+  <meta name="keywords" content="Maven,Shade," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta name="keywords" content="HelloWorld">
+<meta name="description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
+<meta name="keywords" content="Maven,Shade">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://ffpeng90.github.io/2018/09/29/hello-world/index.html">
+<meta property="og:title" content="Maven-Shade-Plugin必知必会">
+<meta property="og:url" content="http://ffpeng90.github.io/2018-10-18/Maven-Shade-Plugin必知必会/index.html">
 <meta property="og:site_name" content="ffpeng&#39;s Essay">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-18T07:32:56.824Z">
+<meta property="og:updated_time" content="2018-10-18T09:11:33.611Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Maven-Shade-Plugin必知必会">
+<meta name="twitter:description" content="问题背景工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。123[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:c">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://ffpeng90.github.io/2018/09/29/hello-world/"/>
+  <link rel="canonical" href="http://ffpeng90.github.io/2018-10-18/Maven-Shade-Plugin必知必会/"/>
 
 
 
 
 
-  <title>Hello World | ffpeng's Essay</title>
+  <title>Maven-Shade-Plugin必知必会 | ffpeng's Essay</title>
   
 
 
@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://ffpeng90.github.io/2018/09/29/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://ffpeng90.github.io/2018-10-18/Maven-Shade-Plugin必知必会/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="peng feifei">
@@ -279,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">Maven-Shade-Plugin必知必会</h1>
         
 
         <div class="post-meta">
@@ -291,8 +291,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-29T16:31:18+08:00">
-                2018-09-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-18T14:57:08+08:00">
+                2018-10-18
               </time>
             
 
@@ -314,8 +314,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Diary/" itemprop="url" rel="index">
-                    <span itemprop="name">Diary</span>
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
                   </a>
                 </span>
 
@@ -332,8 +332,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/09/29/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/09/29/hello-world/" itemprop="commentsCount"></span>
+                <a href="/2018-10-18/Maven-Shade-Plugin必知必会/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018-10-18/Maven-Shade-Plugin必知必会/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -341,7 +341,7 @@
 
           
           
-             <span id="/2018/09/29/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
+             <span id="/2018-10-18/Maven-Shade-Plugin必知必会/" class="leancloud_visitors" data-flag-title="Maven-Shade-Plugin必知必会">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -372,15 +372,40 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>工作项目使用了hadoop-common的jar包，其中内置了protobuf-java 2.5.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.hadoop:hadoop-common:jar:2.6.0-cdh5.11.0:compile</span><br><span class="line">[INFO] |  +- org.apache.hadoop:hadoop-annotations:jar:2.6.0-cdh5.11.0:compile</span><br><span class="line">[INFO] |  +- com.google.protobuf:protobuf-java:jar:2.5.0:compile</span><br></pre></td></tr></table></figure></p>
+<p>而新加入的Calcite-core的jar包中内置了protobuf-java 3.1.0版本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[INFO] +- org.apache.calcite:calcite-core:jar:1.13.0:compile</span><br><span class="line">[INFO] |  +- org.apache.calcite.avatica:avatica-core:jar:1.10.0:compile</span><br><span class="line">[INFO] |  |  +- org.apache.calcite.avatica:avatica-metrics:jar:1.10.0:compile</span><br><span class="line">[INFO] |  |  +- com.google.protobuf:protobuf-java:jar:3.1.0:compile</span><br></pre></td></tr></table></figure></p>
+<p>如果这两个版本的jar包能够向下兼容的话，我只需要exclude掉2.6.0的jar包就可以手工了。<br>然而自己实践了一把之后，发现如果exclude 2.6.0的protobuf会导致hbase初始化异常，而exclude 3.1.0的jar包会导致Calcite-core <code>could not found function **</code>这种低版本报错。</p>
+<p>这种情况下就需要两个版本的jar包并存，那怎么解决这个冲突问题呢？</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li><p><strong>maven-shade-plugin</strong><br>使用maven-shade-plugin的relocate功能，可以将内部依赖的包换成另外一个别名,如下代码所示，可以将名空间<code>com.google.protobuf</code>转换成<code>shaded.com.google.protobuf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.4.1&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;createDependencyReducedPom&gt;false&lt;/createDependencyReducedPom&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">                &lt;executions&gt;</span><br><span class="line">                    &lt;execution&gt;</span><br><span class="line">                        &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">                        &lt;goals&gt;</span><br><span class="line">                            &lt;goal&gt;shade&lt;/goal&gt;</span><br><span class="line">                        &lt;/goals&gt;</span><br><span class="line">                        &lt;configuration&gt;</span><br><span class="line">                            &lt;filters&gt;</span><br><span class="line">                                &lt;filter&gt;</span><br><span class="line">                                    &lt;artifact&gt;*:*&lt;/artifact&gt;</span><br><span class="line">                                    &lt;excludes&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.SF&lt;/exclude&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.DSA&lt;/exclude&gt;</span><br><span class="line">                                        &lt;exclude&gt;META-INF/*.RSA&lt;/exclude&gt;</span><br><span class="line">                                    &lt;/excludes&gt;</span><br><span class="line">                                &lt;/filter&gt;</span><br><span class="line">                            &lt;/filters&gt;</span><br><span class="line">                            &lt;relocations&gt;</span><br><span class="line">                                &lt;relocation&gt;</span><br><span class="line">                                    &lt;pattern&gt;com.google.protobuf&lt;/pattern&gt;</span><br><span class="line">                                    &lt;shadedPattern&gt;shaded.com.google.protobuf&lt;/shadedPattern&gt;</span><br><span class="line">                                &lt;/relocation&gt;</span><br><span class="line">                            &lt;/relocations&gt;</span><br><span class="line">                        &lt;/configuration&gt;</span><br><span class="line">                    &lt;/execution&gt;</span><br><span class="line">                &lt;/executions&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意maven-shade-plugin的版本，需要3.0+才能生效<br><a href="https://stackoverflow.com/questions/47476402/maven-shade-plugin-relocation-not-updating-a-entry-in-resource-file" target="_blank" rel="noopener">stackoverflow传送门</a></p>
+</li>
+<li><p>因为在shade的过程中，文件位置重新变过，所以也需要更新META-INF中的内容，shade plugin也提供这样的转换,<a href="http://aitozi.com/advance-maven-shade-plugin.html" target="_blank" rel="noopener">传送</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;transformers&gt;</span><br><span class="line">    &lt;transformer implementation=&quot;org.apache.maven.plugins.shade.resource.ServicesResourceTransformer&quot;/&gt;</span><br><span class="line">&lt;/transformers&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="Shade-Plugin进阶"><a href="#Shade-Plugin进阶" class="headerlink" title="Shade Plugin进阶"></a>Shade Plugin进阶</h1><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>Maven项目提供的Shade插件，能够将Maven应用打包为超级的uber-jar(也成为fat jar，或shaded jar)。在打包过程中可以</p>
+<ul>
+<li>包含依赖库</li>
+<li><strong>重命名依赖库的包名</strong>（以避免类库的冲突）</li>
+<li>有选择的打包</li>
+</ul>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Shade插件目前最近版本是3.1.0</p>
+<ol>
+<li>默认作用阶段为Package， 执行目标为shade</li>
+<li><p>pom文件配置方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.1.0&lt;/version&gt;</span><br><span class="line">    &lt;configuration&gt;</span><br><span class="line">          &lt;!-- put your configurations here --&gt;</span><br><span class="line">    &lt;/configuration&gt;</span><br><span class="line">    &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">            &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">            &lt;goals&gt;</span><br><span class="line">                &lt;goal&gt;shade&lt;/goal&gt;</span><br><span class="line">            &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">    &lt;/executions&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改部分依赖的包名（避免冲突）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.1.0&lt;/version&gt;</span><br><span class="line">    &lt;configuration&gt;</span><br><span class="line">          &lt;relocations&gt;</span><br><span class="line">                &lt;relocation&gt;</span><br><span class="line">                    &lt;pattern&gt;com.google.protobuf&lt;/pattern&gt;</span><br><span class="line">                    &lt;shadedPattern&gt;shaded.com.google.protobuf&lt;/shadedPattern&gt;</span><br><span class="line">                &lt;/relocation&gt;</span><br><span class="line">            &lt;/relocations&gt;</span><br><span class="line">    &lt;/configuration&gt;</span><br><span class="line">    &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">            &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">            &lt;goals&gt;</span><br><span class="line">                &lt;goal&gt;shade&lt;/goal&gt;</span><br><span class="line">            &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">    &lt;/executions&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>资源转换器， Shade插件提供了多种资源转换器，<a href="http://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html" target="_blank" rel="noopener">资源转换器-传送门</a><br>需要资源转换器，是因为Aggregating classes/resources from <strong>several artifacts into one uber JAR</strong> is straight forward as long as there is no overlap. Otherwise, some kind of logic to <strong>merge resources from several JARs is required</strong>. This is where resource transformers kick in.</p>
+</li>
+<li><p>执行package命令<code>mvn clean package</code>,会在target文件夹下生成一个uber-jar,以-shaded.jar为后缀的jar包。</p>
+</li>
+</ol>
 
       
     </div>
@@ -422,7 +447,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HelloWorld/" rel="tag"># HelloWorld</a>
+            <a href="/tags/Maven/" rel="tag"># Maven</a>
+          
+            <a href="/tags/Shade/" rel="tag"># Shade</a>
           
         </div>
       
@@ -435,14 +462,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018-10-18/Hexo必学必会/" rel="next" title="Hexo必学必会">
+                <i class="fa fa-chevron-left"></i> Hexo必学必会
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/10/16/The-world-beyond-batch-Streaming-101/" rel="prev" title="The world beyond batch:Streaming 101">
-                The world beyond batch:Streaming 101 <i class="fa fa-chevron-right"></i>
+              <a href="/2018-10-18/Impala常见问题汇总/" rel="prev" title="Impala常见问题汇总">
+                Impala常见问题汇总 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -598,7 +629,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题背景"><span class="nav-number">1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决方法"><span class="nav-number">2.</span> <span class="nav-text">解决方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shade-Plugin进阶"><span class="nav-number">3.</span> <span class="nav-text">Shade Plugin进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">3.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">3.2.</span> <span class="nav-text">介绍</span></a></li></ol></li></ol></div>
             
 
           </div>
