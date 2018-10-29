@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Markdown," />
+  <meta name="keywords" content="Bigdata,Druid,Streaming," />
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="标题： 1级标题2级标题3级标题4级标题5级标题6级标题 分割线：三个以上的短线即可作出分割线 段落：以一个空行开始，以一个空行结束，中间的就是一个段落。  无序列表：使用 - 加一个空格  无需列表1 无序列表2 无序列表3   有序列表：使用 数字 加一个英文句点  有序列表 有序列表 有序列表 有序列表 有序列表   强调斜体强调粗体强调  code格式：反引号Use the printf(">
-<meta name="keywords" content="Markdown">
+<meta name="description" content="背景找了好久的大数据实时平台，还能面向OLAP分析场景的，仔细罗列了一下，Elasticsearch、Kylin、Druid， 当然还有比较冷门的ClickHouse等等。线上可以使用的无外乎这些主流选择。  Elasticsearch支持实时检索聚合，数据实时elt可以通过ingest Node来完成。但其Query语法门槛较高； Kylin目前可以支持流式创建cube，但build过程很长，一">
+<meta name="keywords" content="Bigdata,Druid,Streaming">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown语法必学必会">
-<meta property="og:url" content="http://ffpeng90.github.io/2018-10-16/Markdown语法必学必会/index.html">
+<meta property="og:title" content="Druid:开源大数据实时处理系统-1">
+<meta property="og:url" content="http://ffpeng90.github.io/2018-10-19/Druid-开源大数据实时处理系统-1/index.html">
 <meta property="og:site_name" content="ffpeng&#39;s Essay">
-<meta property="og:description" content="标题： 1级标题2级标题3级标题4级标题5级标题6级标题 分割线：三个以上的短线即可作出分割线 段落：以一个空行开始，以一个空行结束，中间的就是一个段落。  无序列表：使用 - 加一个空格  无需列表1 无序列表2 无序列表3   有序列表：使用 数字 加一个英文句点  有序列表 有序列表 有序列表 有序列表 有序列表   强调斜体强调粗体强调  code格式：反引号Use the printf(">
+<meta property="og:description" content="背景找了好久的大数据实时平台，还能面向OLAP分析场景的，仔细罗列了一下，Elasticsearch、Kylin、Druid， 当然还有比较冷门的ClickHouse等等。线上可以使用的无外乎这些主流选择。  Elasticsearch支持实时检索聚合，数据实时elt可以通过ingest Node来完成。但其Query语法门槛较高； Kylin目前可以支持流式创建cube，但build过程很长，一">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-18T07:33:36.426Z">
+<meta property="og:image" content="http://ffpeng90.github.io/2018-10-19/Druid-开源大数据实时处理系统-1/druid-artichture.jpg">
+<meta property="og:updated_time" content="2018-10-19T08:52:47.369Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown语法必学必会">
-<meta name="twitter:description" content="标题： 1级标题2级标题3级标题4级标题5级标题6级标题 分割线：三个以上的短线即可作出分割线 段落：以一个空行开始，以一个空行结束，中间的就是一个段落。  无序列表：使用 - 加一个空格  无需列表1 无序列表2 无序列表3   有序列表：使用 数字 加一个英文句点  有序列表 有序列表 有序列表 有序列表 有序列表   强调斜体强调粗体强调  code格式：反引号Use the printf(">
+<meta name="twitter:title" content="Druid:开源大数据实时处理系统-1">
+<meta name="twitter:description" content="背景找了好久的大数据实时平台，还能面向OLAP分析场景的，仔细罗列了一下，Elasticsearch、Kylin、Druid， 当然还有比较冷门的ClickHouse等等。线上可以使用的无外乎这些主流选择。  Elasticsearch支持实时检索聚合，数据实时elt可以通过ingest Node来完成。但其Query语法门槛较高； Kylin目前可以支持流式创建cube，但build过程很长，一">
+<meta name="twitter:image" content="http://ffpeng90.github.io/2018-10-19/Druid-开源大数据实时处理系统-1/druid-artichture.jpg">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://ffpeng90.github.io/2018-10-16/Markdown语法必学必会/"/>
+  <link rel="canonical" href="http://ffpeng90.github.io/2018-10-19/Druid-开源大数据实时处理系统-1/"/>
 
 
 
 
 
-  <title>Markdown语法必学必会 | ffpeng's Essay</title>
+  <title>Druid:开源大数据实时处理系统-1 | ffpeng's Essay</title>
   
 
 
@@ -262,7 +264,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://ffpeng90.github.io/2018-10-16/Markdown语法必学必会/">
+    <link itemprop="mainEntityOfPage" href="http://ffpeng90.github.io/2018-10-19/Druid-开源大数据实时处理系统-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="peng feifei">
@@ -279,7 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Markdown语法必学必会</h1>
+          <h1 class="post-title" itemprop="name headline">Druid:开源大数据实时处理系统-1</h1>
         
 
         <div class="post-meta">
@@ -291,8 +293,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-16T21:03:11+08:00">
-                2018-10-16
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-19T15:22:31+08:00">
+                2018-10-19
               </time>
             
 
@@ -314,8 +316,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
+                  <a href="/categories/BigData/" itemprop="url" rel="index">
+                    <span itemprop="name">BigData</span>
                   </a>
                 </span>
 
@@ -332,8 +334,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018-10-16/Markdown语法必学必会/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018-10-16/Markdown语法必学必会/" itemprop="commentsCount"></span>
+                <a href="/2018-10-19/Druid-开源大数据实时处理系统-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018-10-19/Druid-开源大数据实时处理系统-1/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -341,7 +343,7 @@
 
           
           
-             <span id="/2018-10-16/Markdown语法必学必会/" class="leancloud_visitors" data-flag-title="Markdown语法必学必会">
+             <span id="/2018-10-19/Druid-开源大数据实时处理系统-1/" class="leancloud_visitors" data-flag-title="Druid:开源大数据实时处理系统-1">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -372,59 +374,47 @@
       
 
       
-        <p>标题：</p>
-<h1 id="1级标题"><a href="#1级标题" class="headerlink" title="1级标题"></a>1级标题</h1><h2 id="2级标题"><a href="#2级标题" class="headerlink" title="2级标题"></a>2级标题</h2><h3 id="3级标题"><a href="#3级标题" class="headerlink" title="3级标题"></a>3级标题</h3><h4 id="4级标题"><a href="#4级标题" class="headerlink" title="4级标题"></a>4级标题</h4><h5 id="5级标题"><a href="#5级标题" class="headerlink" title="5级标题"></a>5级标题</h5><h6 id="6级标题"><a href="#6级标题" class="headerlink" title="6级标题"></a>6级标题</h6><hr>
-<h2 id="分割线：三个以上的短线即可作出分割线"><a href="#分割线：三个以上的短线即可作出分割线" class="headerlink" title="分割线：三个以上的短线即可作出分割线"></a>分割线：三个以上的短线即可作出分割线</h2><hr>
-<p>段落：以一个空行开始，以一个空行结束，中间的就是一个段落。</p>
-<hr>
-<p>无序列表：使用 - 加一个空格</p>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>找了好久的大数据实时平台，还能面向OLAP分析场景的，仔细罗列了一下，Elasticsearch、Kylin、Druid， 当然还有比较冷门的ClickHouse等等。线上可以使用的无外乎这些主流选择。</p>
 <ul>
-<li>无需列表1</li>
-<li>无序列表2</li>
-<li>无序列表3</li>
+<li>Elasticsearch支持实时检索聚合，数据实时elt可以通过ingest Node来完成。但其Query语法门槛较高；</li>
+<li>Kylin目前可以支持流式创建cube，但build过程很长，一旦cube完成，查询速度很快，但查询模式偏固定；</li>
 </ul>
-<hr>
-<p>有序列表：使用 数字 加一个英文句点</p>
-<ol>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-</ol>
-<hr>
-<p>强调<br><em>斜体强调</em><br><strong>粗体强调</strong></p>
-<hr>
-<p>code格式：反引号<br>Use the <code>printf()</code> function.<br>大块code格式：双反引号<br><code>There is a literal backtick (`) here.针对在代码区段内插入反引号的情况</code> </p>
-<hr>
-<p>超链接：<code>[链接名称](网址，标题)</code><br><code>[我是链接名](http://ffpeng90.github.io, &quot;我是标题&quot;)</code><br><a href="http://ffpeng90.github.io," title="我是标题">我是链接名</a></p>
-<p>直接展示链接的写法：<code>&lt;http://ffpeng90.github.io&gt;</code></p>
-<hr>
-<p>键盘键<br><kbd>Ctrl+[</kbd> and <kbd>Ctrl+]</kbd></p>
-<hr>
-<p>表格：</p>
-<table>
-<thead>
-<tr>
-<th>Item</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Computer</td>
-<td>$1600</td>
-</tr>
-<tr>
-<td>Phone</td>
-<td>$12</td>
-</tr>
-<tr>
-<td>Pipe</td>
-<td>$1</td>
-</tr>
-</tbody>
-</table>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Druid在大数据领域已经很久了， 只听其声未见其人，所以今天我就来讲讲Druid到底是个啥？<br>简单来说，Druid是一个分布式的、支持实时多维OLAP分析的数据处理系统。它既支持高速的 <strong>数据实时摄入处理</strong> ，也支持 <strong>实时且灵活的多维数据分析查询</strong> 。因此Druid最常用的场景就是大数据背景下、灵活快速的多维OLAP分析。 另外，Druid还有一个关键的特点：它支持根据时间戳对数据进行预聚合摄入和聚合分析，因此也有用户经常在有 <strong>时序</strong> 数据处理分析的场景中用到它。</p>
+<ul>
+<li>需要交互式聚合和快速探究大量数据时；</li>
+<li>需要实时查询分析时；</li>
+<li>具有大量数据时，如每天数亿事件的新增、每天数10T数据的增加；</li>
+<li>对数据尤其是大数据进行实时分析时；</li>
+<li>需要一个高可用、高容错、高性能数据库时。</li>
+</ul>
+<p>先扯皮开源界的命名问题，经常撞车，导致码农老鼠老虎傻傻分不清。但不撞车的话，又显得名字太过冷僻，没法朗朗上口。 在这里，阿里巴巴也曾创建过一个开源项目叫作Druid,但它是一个数据库连接池的项目。和本文讨论的Druid没有任何关系,它们解决完全不同的问题。</p>
+<p>目前大数据的轮子这么多，但没有一个轮子是万金油项目（手动狗头）。技术选型的时候一定要确定自己的需求，才能有的放矢。本文主要就“海量数据下的实时多维OLAP分析”为背景介绍Druid。</p>
+<h2 id="存储格式"><a href="#存储格式" class="headerlink" title="存储格式"></a>存储格式</h2><p>Druid自己有着数据存储的逻辑和格式（主要是DataSource和Segment），而其整个框架也是围绕着数据存储展开的。 </p>
+<h3 id="DataSource"><a href="#DataSource" class="headerlink" title="DataSource"></a>DataSource</h3><p>DataSource对应关系数据库中的Table概念。 一个DataSource主要包括三种元素：</p>
+<ul>
+<li>时间列(TimeStamp)， 表明每行数据的时间值，默认使用 UTC 时间格式且精确到毫秒级别。这个列是数据聚合与范围查询的重要维度。</li>
+<li>维度列(Dimension): 维度来自于OLAP的概念，用来标识数据行的各个类别信息。</li>
+<li>指标列(Metric): 指标对应于OLAP概念中的Fact，是用于聚合和计算的列这些指标列通常是一些数字，计算操作通常包括 Count、Sum 和 Mean 等。</li>
+</ul>
+<p>无论是实时处理还是批处理，Druid都会对选择的指标列进行Roll Up操作。这种操作，使得Druid不仅能节省存储空间，提高处理速度，同时还能加送聚合查询的效率。</p>
+<h3 id="Segment"><a href="#Segment" class="headerlink" title="Segment"></a>Segment</h3><p>如果说DataSource是一个逻辑概念，Segment就是数据的实际物理存储格式，Druid 正是通过 Segment 实现了对数据的横纵向切割(Slice and Dice)操作。从数据按时间分布的角度来看, 通过参数 segmentGranularity 的设置，Druid 将不同时间范围内的数据存储在不同的 Segment 数据块中，这便是所谓的数据横向切割。这种设计为 Druid 带来一个显而易见的优点：按时间范围查询数据时，仅需要访问对应时间段内的这些 Segment 数据块,而不需要进行全表数据范围查询,这使效率得到了极大的提高。<br>对比hive中的partition概念，一个parition一个目录， 而Druid里面是一个窗口一个Segment。</p>
+<p>同时,在 Segment 中也面向列进行数据压缩存储，这便是所谓的数据纵向切割。而且对Segment 中的维度列使用了 Bitmap 技术对其数据的访问进行了优化。其中，Druid会为每一维度列存储所有列值、创建字典（用来存储所有列值对应的ID）以及为每一个列值创建其bitmap索引以帮助快速定位哪些行拥有该列值。</p>
+<p>总体来说，数据的存储方式都是RC格式的扩展。</p>
+<h2 id="实时节点架构"><a href="#实时节点架构" class="headerlink" title="实时节点架构"></a>实时节点架构</h2><p>Druid架构包含四种节点:</p>
+<ul>
+<li>实时节点(RealtimeNode): 即时摄入实时数据，以及生成Segment数据文件。</li>
+<li>历史节点(HistoricalNode): 加载已生成好的数据文件，以供数据查询。</li>
+<li>查询节点(Broker Node): 对外提供数据查询服务，并同时从实时节点与历史节点查询数据,合并后返回给调用方。</li>
+<li>协调节点(CoordinatorNode): 负责历史节点的数据负载均衡，以及通过规则(Rule) 管理数据的生命周期。</li>
+</ul>
+<p>同时集群还依赖三种外部服务：</p>
+<ul>
+<li>元数据库(Metastore): 存储Druid集群的原数据信息，比如Segment的相关信息，一般用 MySQL 或 PostgreSQL。</li>
+<li>分布式协调服务(Coordination): 为Druid集群提供一致性协调服务的组件，通常为Zookeeper。</li>
+<li>数据文件存储库(DeepStorage): 存放生成的Segment数据文件，并供历史节点下载 对于单节点集群可以是本地磁盘，而对于分布式集群一般是 HDFS 或 NFS。</li>
+</ul>
+<p><img src="/2018-10-19/Druid-开源大数据实时处理系统-1/druid-artichture.jpg" alt="druid架构图"></p>
+<p>从数据流转的角度来看，实时/批量数据从架构图的左侧进入系统,实时流数据会被实时节点消费,然后实时节点将生成的 Segment 数据文件上传到数据文件存储库；而批量数据经过 Druid 集群消费后会被直接上传到数据文件存储库。同时，查询节点会响应外部的查询请求，并将分别从实时节点与历史节点查询到的结果合并后返回，典型的lamda架构。</p>
 
       
     </div>
@@ -466,7 +456,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Markdown/" rel="tag"># Markdown</a>
+            <a href="/tags/Bigdata/" rel="tag"># Bigdata</a>
+          
+            <a href="/tags/Druid/" rel="tag"># Druid</a>
+          
+            <a href="/tags/Streaming/" rel="tag"># Streaming</a>
           
         </div>
       
@@ -479,8 +473,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018-10-16/The-world-beyond-batch-Streaming-101/" rel="next" title="The world beyond batch:Streaming 101">
-                <i class="fa fa-chevron-left"></i> The world beyond batch:Streaming 101
+              <a href="/2018-10-18/Impala常见问题汇总/" rel="next" title="Impala常见问题汇总">
+                <i class="fa fa-chevron-left"></i> Impala常见问题汇总
               </a>
             
           </div>
@@ -488,10 +482,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018-10-18/Hexo必学必会/" rel="prev" title="Hexo必学必会">
-                Hexo必学必会 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -646,7 +636,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1级标题"><span class="nav-number">1.</span> <span class="nav-text">1级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2级标题"><span class="nav-number">1.1.</span> <span class="nav-text">2级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3级标题"><span class="nav-number">1.1.1.</span> <span class="nav-text">3级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4级标题"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">4级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5级标题"><span class="nav-number">1.1.1.1.1.</span> <span class="nav-text">5级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#6级标题"><span class="nav-number">1.1.1.1.1.1.</span> <span class="nav-text">6级标题</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分割线：三个以上的短线即可作出分割线"><span class="nav-number">1.2.</span> <span class="nav-text">分割线：三个以上的短线即可作出分割线</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储格式"><span class="nav-number">2.1.</span> <span class="nav-text">存储格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DataSource"><span class="nav-number">2.1.1.</span> <span class="nav-text">DataSource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Segment"><span class="nav-number">2.1.2.</span> <span class="nav-text">Segment</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实时节点架构"><span class="nav-number">2.2.</span> <span class="nav-text">实时节点架构</span></a></li></ol></li></ol></div>
             
 
           </div>
