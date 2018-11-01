@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="ffpeng&#39;s Essay">
 <meta property="og:description" content="Impala好用，但也遍地是坑，这里Mark一下，持续更新。  multi count distinct不支持sql如下：12345678select    upload_key,    max(my_timestamp) as upload_time,    max(color_key) as max_color_fk,    count(distinct color_key) as color">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-18T09:44:49.080Z">
+<meta property="og:updated_time" content="2018-11-01T09:30:49.633Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Impala常见问题汇总">
 <meta name="twitter:description" content="Impala好用，但也遍地是坑，这里Mark一下，持续更新。  multi count distinct不支持sql如下：12345678select    upload_key,    max(my_timestamp) as upload_time,    max(color_key) as max_color_fk,    count(distinct color_key) as color">
@@ -381,6 +381,8 @@
 <h1 id="Lateral-View语法不支持"><a href="#Lateral-View语法不支持" class="headerlink" title="Lateral View语法不支持"></a>Lateral View语法不支持</h1><p><a href="https://issues.apache.org/jira/browse/IMPALA-2679" target="_blank" rel="noopener">Impala-2679</a>  not support directly, but Impala 2.3 has support for complex types in Parquet, you should store complex data as complex type in parquet, then you can use it as map/array/set in impala 2.3</p>
 <hr>
 <h1 id="复杂的Hive-view不支持"><a href="#复杂的Hive-view不支持" class="headerlink" title="复杂的Hive view不支持"></a>复杂的Hive view不支持</h1><p>对于复杂的Hive view语法， Impala会直接抛出这种报错：<br><code>Failed to parse view-definition statement of view</code></p>
+<hr>
+<h1 id="LAG等窗口函数取num-1的时候导致sql结果频繁不一致"><a href="#LAG等窗口函数取num-1的时候导致sql结果频繁不一致" class="headerlink" title="LAG等窗口函数取num=1的时候导致sql结果频繁不一致"></a>LAG等窗口函数取num=1的时候导致sql结果频繁不一致</h1><p>lag是系统自带的窗口分析函数，hive，impala，spark-sql都是有的，lag函数中order by dt的时候由于dt有大量的重复值，不同的计算的时候可能shuffle到不同的块中，导致计算结果不一致了。 同理Row_number() OVER ( partition BY user_id ORDER BY pay_time desc）也容易造成结果不一致。</p>
 
       
     </div>
@@ -604,7 +606,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#multi-count-distinct不支持"><span class="nav-number">1.</span> <span class="nav-text">multi count distinct不支持</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lateral-View语法不支持"><span class="nav-number">2.</span> <span class="nav-text">Lateral View语法不支持</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#复杂的Hive-view不支持"><span class="nav-number">3.</span> <span class="nav-text">复杂的Hive view不支持</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#multi-count-distinct不支持"><span class="nav-number">1.</span> <span class="nav-text">multi count distinct不支持</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lateral-View语法不支持"><span class="nav-number">2.</span> <span class="nav-text">Lateral View语法不支持</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#复杂的Hive-view不支持"><span class="nav-number">3.</span> <span class="nav-text">复杂的Hive view不支持</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LAG等窗口函数取num-1的时候导致sql结果频繁不一致"><span class="nav-number">4.</span> <span class="nav-text">LAG等窗口函数取num=1的时候导致sql结果频繁不一致</span></a></li></ol></div>
             
 
           </div>
